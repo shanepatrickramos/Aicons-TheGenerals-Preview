@@ -1,0 +1,2262 @@
+<!-- @dsCard group="UI Kits" viewport="1440x820" name="Generals Team Website" subtitle="Full website — hero, team, events, media, training hub, testimonials" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Generals AICONS — Team Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="image-slot.js"></script>
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold-bright:  #F5C842;
+      --gold-mid:     #C9961A;
+      --gold-deep:    #8B6310;
+      --red-brand:    #9B1A0A;
+      --red-vivid:    #C0281A;
+      --black:        #080808;
+      --black-card:   #0E0E0E;
+      --black-lift:   #161616;
+      --black-border: rgba(197,148,26,0.18);
+      --white:        #FFFFFF;
+      --text-muted:   #7A7060;
+      --text-dim:     #4A4035;
+      /* semantic theme tokens */
+      --nav-bg:        rgba(8,8,8,0.9);
+      --hero-desc:     #9A8E7A;
+      --name-grad:     linear-gradient(180deg, #FDEEA0 0%, #C9961A 100%);
+      --name-grad-h:   linear-gradient(90deg, #FDEEA0, #C9961A);
+      --hero-title-grad: linear-gradient(180deg, #FDEEA0 0%, #C9961A 45%, #7A5606 100%);
+      --title-grad:    linear-gradient(180deg, #FFF 0%, #B8A070 100%);
+      --scene-opacity: 0.55;
+    }
+
+    /* ── LIGHT THEME ─────────────────────────────────── */
+    html[data-theme="light"] {
+      --gold-bright:  #B7860B;
+      --gold-mid:     #946C08;
+      --gold-deep:    #6E5106;
+      --red-brand:    #9B1A0A;
+      --red-vivid:    #B8240F;
+      --black:        #F4EEE1;   /* page bg → warm ivory */
+      --black-card:   #FFFFFF;   /* cards → white */
+      --black-lift:   #EAE2D0;   /* lifted surfaces */
+      --black-border: rgba(150,108,8,0.28);
+      --white:        #1C1710;   /* primary text → dark espresso */
+      --text-muted:   #6A5C42;
+      --text-dim:     #A8997D;
+      --nav-bg:        rgba(244,238,225,0.92);
+      --hero-desc:     #5E5238;
+      --name-grad:     linear-gradient(180deg, #A6790A 0%, #6E5106 100%);
+      --name-grad-h:   linear-gradient(90deg, #A6790A, #6E5106);
+      --hero-title-grad: linear-gradient(180deg, #B7860B 0%, #8B6310 50%, #5E4506 100%);
+      --title-grad:    linear-gradient(180deg, #2A2114 0%, #8B6310 100%);
+      --scene-opacity: 0.4;
+    }
+
+    html { transition: background-color 0.4s ease; }
+
+    html, body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    /* Subtle grid texture */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(197,148,26,0.018) 80px, rgba(197,148,26,0.018) 81px),
+        repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(197,148,26,0.018) 80px, rgba(197,148,26,0.018) 81px);
+      pointer-events: none; z-index: 0;
+    }
+    body > * { position: relative; z-index: 1; }
+
+    /* ══ Meteors (site-wide, brand gold) ════════════ */
+    .meteor-layer {
+      position: fixed; inset: 0;
+      overflow: hidden; pointer-events: none;
+      z-index: 0;
+    }
+    .meteor {
+      position: absolute;
+      top: -10%;
+      width: 2px; height: 2px;
+      border-radius: 50%;
+      background: var(--gold-bright);
+      box-shadow: 0 0 6px 1px rgba(245,200,66,0.55);
+      transform: rotate(215deg);
+      animation-name: meteor-fall;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      opacity: 0;
+    }
+    /* the streaking tail */
+    .meteor::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 0;
+      width: 56px; height: 1px;
+      transform: translateY(-50%);
+      background: linear-gradient(90deg, var(--gold-bright), transparent);
+    }
+    @keyframes meteor-fall {
+      0%   { opacity: 0; transform: rotate(215deg) translateX(0); }
+      8%   { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { opacity: 0; transform: rotate(215deg) translateX(820px); }
+    }
+    html[data-theme="light"] .meteor { box-shadow: 0 0 5px 1px rgba(148,108,8,0.4); }
+    @media (prefers-reduced-motion: reduce) {
+      .meteor-layer { display: none; }
+    }
+
+    /* ══ NAV ══════════════════════════════════════════ */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 64px;
+      border-bottom: 1px solid var(--black-border);
+      backdrop-filter: blur(8px);
+      background: var(--nav-bg);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .nav-logo img {
+      height: 48px; width: auto;
+      object-fit: contain;
+      mix-blend-mode: screen;
+      filter: brightness(1.2) drop-shadow(0 0 8px rgba(197,148,26,0.5));
+    }
+    html[data-theme="light"] .nav-logo img {
+      mix-blend-mode: multiply;
+      filter: brightness(0.85) drop-shadow(0 0 6px rgba(150,108,8,0.3));
+    }
+    .nav-logo span {
+      font-size: 12px; font-weight: 800;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      background: var(--name-grad-h);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .nav-links {
+      display: flex; gap: 24px; list-style: none; align-items: center;
+    }
+    .nav-links > li { position: relative; }
+    .nav-links a, .nav-parent-btn {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--text-muted);
+      text-decoration: none; transition: color 0.2s;
+      background: none; border: none; cursor: pointer;
+      font-family: 'Montserrat', sans-serif; padding: 0;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .nav-links a:hover, .nav-parent-btn:hover,
+    .nav-links li.open > .nav-parent-btn { color: var(--gold-bright); }
+    .nav-chevron {
+      display: inline-block; width: 8px; height: 8px;
+      border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+      transform: rotate(45deg) translateY(-2px);
+      transition: transform 0.25s;
+    }
+    .nav-links li.open .nav-chevron { transform: rotate(-135deg) translateY(-2px); }
+
+    /* Dropdown */
+    .nav-dropdown {
+      display: none;
+      position: absolute; top: calc(100% + 16px); left: 50%;
+      transform: translateX(-50%);
+      min-width: 200px;
+      background: var(--black-card);
+      border: 1px solid var(--black-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+      z-index: 200;
+      padding: 6px 0;
+    }
+    .nav-links li.open .nav-dropdown { display: block; }
+    .nav-dropdown::before {
+      content: ''; position: absolute; top: -5px; left: 50%;
+      transform: translateX(-50%) rotate(45deg);
+      width: 10px; height: 10px;
+      background: var(--black-card); border-left: 1px solid var(--black-border); border-top: 1px solid var(--black-border);
+    }
+    .nav-dropdown a {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 18px;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--text-muted);
+      text-decoration: none; transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .nav-dropdown a:hover { background: rgba(197,148,26,0.1); color: var(--gold-bright); }
+    .nav-dropdown a .dd-icon {
+      width: 20px; height: 20px; border: 1px solid var(--black-border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; color: var(--gold-mid); flex-shrink: 0;
+    }
+    .nav-dropdown-label {
+      padding: 8px 18px 4px;
+      font-size: 8px; font-weight: 800; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--gold-mid);
+      border-bottom: 1px solid var(--black-border); margin-bottom: 4px;
+    }
+
+    /* ══ Theme toggle (3-way segmented pill) ════════ */
+    .theme-toggle {
+      position: relative;
+      display: flex; align-items: center;
+      gap: 2px; padding: 3px;
+      border-radius: 999px;
+      border: 1px solid var(--black-border);
+      background: var(--black-card);
+    }
+    .tt-knob {
+      position: absolute; top: 3px; left: 3px;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold-mid), var(--gold-bright));
+      box-shadow: 0 2px 8px rgba(197,148,26,0.4);
+      transition: transform 0.32s cubic-bezier(0.4,0.1,0.2,1);
+      z-index: 0;
+    }
+    .tt-opt {
+      position: relative; z-index: 1;
+      width: 26px; height: 26px; padding: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: none; border: none; cursor: pointer;
+      color: var(--text-muted);
+      transition: color 0.25s;
+    }
+    .tt-opt svg { width: 15px; height: 15px; }
+    .tt-opt:hover { color: var(--gold-bright); }
+    .tt-opt.active { color: #1C1710; }
+    /* knob position per mode */
+    .theme-toggle[data-mode="light"]  .tt-knob { transform: translateX(0); }
+    .theme-toggle[data-mode="system"] .tt-knob { transform: translateX(28px); }
+    .theme-toggle[data-mode="dark"]   .tt-knob { transform: translateX(56px); }
+
+    /* ══ HERO ═════════════════════════════════════════ */
+    .hero {
+      position: relative;
+      padding: 56px 40px 68px;
+      overflow: hidden;
+    }
+    .hero-bg-scene {
+      position: absolute; inset: 0;
+      z-index: 0; pointer-events: none;
+      opacity: calc(var(--scene-opacity) * 0.7);
+      -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+    }
+    .hero-bg-scene canvas { display: block; }
+    .hero::after {
+      content: ''; position: absolute;
+      bottom: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, transparent, var(--red-brand) 30%, var(--gold-bright) 50%, var(--red-brand) 70%, transparent);
+    }
+
+    .hero-inner {
+      position: relative; z-index: 2;
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1.1fr;
+      gap: 56px; align-items: center;
+    }
+    @media (max-width: 880px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 36px; text-align: center; }
+      .hero-benefits, .hero-ctas { justify-content: center; }
+      .hero-desc { margin-left: auto; margin-right: auto; }
+    }
+    .hero-eyebrow {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.4em;
+      text-transform: uppercase; color: var(--gold-mid); margin-bottom: 12px;
+    }
+    .hero-title {
+      font-size: clamp(38px, 5vw, 60px); font-weight: 900;
+      text-transform: uppercase; letter-spacing: 0.03em; line-height: 1.02;
+      margin-bottom: 12px;
+      /* Animated gold shine sweep */
+      background: linear-gradient(
+        110deg,
+        #C9961A 0%, #C9961A 35%,
+        #FFF6DA 48%, #FFFFFF 50%, #FFF6DA 52%,
+        #F5C842 65%, #C9961A 100%
+      );
+      background-size: 220% 100%;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      animation: hero-shine 4.5s linear infinite;
+    }
+    @keyframes hero-shine {
+      0%   { background-position: 150% 0; }
+      100% { background-position: -50% 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-title { animation: none; background-position: 50% 0; }
+    }
+    html[data-theme="light"] .hero-title {
+      background: linear-gradient(
+        110deg,
+        #8B6310 0%, #8B6310 35%,
+        #C9961A 48%, #E0AE2E 50%, #C9961A 52%,
+        #A6790A 65%, #6E5106 100%
+      );
+      background-size: 220% 100%;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      animation: hero-shine 4.5s linear infinite;
+    }
+    .hero-sub {
+      font-size: 13px; font-weight: 700; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--red-vivid); margin-bottom: 16px;
+    }
+    .hero-desc {
+      font-size: 14px; font-weight: 500; color: var(--hero-desc);
+      line-height: 1.7; max-width: 480px; margin: 0 0 24px;
+      letter-spacing: 0.02em;
+    }
+    .hero-benefits {
+      display: flex; gap: 24px; flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    /* Video frame */
+    .hero-video-wrap {
+      position: relative; width: 100%; aspect-ratio: 16/9;
+      background: var(--black-card);
+      border: 1px solid rgba(197,148,26,0.3);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 48px rgba(197,148,26,0.12);
+      overflow: hidden;
+    }
+    .hero-video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-video-wrap .corner { position: absolute; width: 22px; height: 22px; z-index: 3; }
+    .hero-video-wrap .corner.tl { top: 8px; left: 8px; border-top: 2px solid var(--gold-bright); border-left: 2px solid var(--gold-bright); }
+    .hero-video-wrap .corner.tr { top: 8px; right: 8px; border-top: 2px solid var(--gold-bright); border-right: 2px solid var(--gold-bright); }
+    .hero-video-wrap .corner.bl { bottom: 8px; left: 8px; border-bottom: 2px solid var(--gold-bright); border-left: 2px solid var(--gold-bright); }
+    .hero-video-wrap .corner.br { bottom: 8px; right: 8px; border-bottom: 2px solid var(--gold-bright); border-right: 2px solid var(--gold-bright); }
+    .hero-video-sound {
+      position: absolute; bottom: 14px; right: 14px; z-index: 4;
+      background: rgba(8,8,8,0.7); border: 1px solid rgba(197,148,26,0.4);
+      color: var(--gold-bright); font-family: 'Montserrat', sans-serif;
+      font-size: 9px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 7px 12px; cursor: pointer; transition: background 0.2s, opacity 0.3s;
+      backdrop-filter: blur(4px);
+    }
+    .hero-video-sound:hover { background: rgba(197,148,26,0.25); }
+    .hero-video-sound.muted-off { opacity: 0; pointer-events: none; }
+    .hero-benefits span {
+      font-size: 10px; font-weight: 800; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gold-mid);
+    }
+    .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
+
+    /* ══ Glass Button (translated from MagicUI GlassButton) ══ */
+    .glass-button-wrap {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      border-radius: 999px;
+    }
+    .glass-button {
+      position: relative;
+      isolation: isolate;
+      cursor: pointer;
+      border-radius: 999px;
+      border: none;
+      display: block;
+      text-decoration: none;
+      transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s ease, filter 0.28s ease;
+    }
+    /* top-edge inner glow highlight (the glass sheen) */
+    .glass-button::after {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: 999px;
+      background: linear-gradient(160deg,
+        rgba(255,255,255,0.22) 0%,
+        rgba(255,255,255,0.06) 40%,
+        transparent 70%);
+      pointer-events: none;
+    }
+    .glass-button-text {
+      display: flex; align-items: center; gap: 8px;
+      position: relative; z-index: 1;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800; letter-spacing: 0.25em;
+      text-transform: uppercase; font-size: 11px;
+      white-space: nowrap;
+    }
+    .glass-button-shadow {
+      position: absolute;
+      bottom: -10px; left: 50%;
+      transform: translateX(-50%);
+      width: 65%; height: 18px;
+      border-radius: 50%;
+      filter: blur(9px);
+      pointer-events: none;
+      transition: opacity 0.28s, width 0.28s;
+      opacity: 0.7;
+    }
+    .glass-button-wrap:hover .glass-button {
+      transform: translateY(-3px);
+      filter: brightness(1.12);
+    }
+    .glass-button-wrap:hover .glass-button-shadow {
+      width: 80%; opacity: 0.9;
+    }
+    .glass-button-wrap:active .glass-button { transform: translateY(0px); }
+
+    /* Primary — gold glass */
+    .btn-join {
+      padding: 14px 36px;
+      background: linear-gradient(135deg,
+        rgba(197,148,26,0.55) 0%,
+        rgba(245,200,66,0.38) 50%,
+        rgba(197,148,26,0.55) 100%);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(245,200,66,0.55);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.28),
+        inset 0 -1px 0 rgba(0,0,0,0.15),
+        0 2px 12px rgba(0,0,0,0.2);
+      color: #1C1100;
+    }
+    .btn-join .glass-button-text { color: #1C1100; }
+    .btn-join-shadow { background: rgba(245,200,66,0.65); }
+
+    /* Secondary — dark glass, gold border */
+    .btn-meet {
+      padding: 14px 36px;
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(197,148,26,0.45);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.12),
+        inset 0 -1px 0 rgba(0,0,0,0.12),
+        0 2px 8px rgba(0,0,0,0.18);
+      color: var(--gold-mid);
+    }
+    .btn-meet .glass-button-text { color: var(--gold-mid); }
+    .btn-meet-shadow { background: rgba(197,148,26,0.35); }
+    html[data-theme="light"] .btn-meet {
+      background: rgba(0,0,0,0.06);
+      border-color: rgba(148,108,8,0.45);
+    }
+
+    /* Register — compact dark glass */
+    .btn-register-wrap { display: inline-block; }
+    .btn-register {
+      padding: 10px 20px;
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(197,148,26,0.38);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.1),
+        0 2px 6px rgba(0,0,0,0.15);
+      color: var(--gold-mid);
+    }
+    .btn-register .glass-button-text {
+      color: var(--gold-mid); font-size: 9px; padding: 0;
+    }
+    .btn-register-shadow { background: rgba(197,148,26,0.3); }
+    .hero-tagline {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.5em;
+      text-transform: uppercase; color: var(--text-muted); margin-top: 24px;
+    }
+    .stars-row { display: flex; gap: 10px; justify-content: center; margin-top: 18px; }
+    .star { color: var(--gold-bright); font-size: 18px; filter: drop-shadow(0 0 6px rgba(245,200,66,0.7)); }
+
+    /* ══ SHARED SECTION STYLES ════════════════════════ */
+    section { padding: 64px 40px; max-width: 1200px; margin: 0 auto; }
+    .section-head { text-align: center; margin-bottom: 40px; }
+    .section-eyebrow {
+      font-size: 10px; font-weight: 800; letter-spacing: 0.4em;
+      text-transform: uppercase; color: var(--gold-mid); margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: clamp(22px, 3vw, 36px); font-weight: 900;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      background: var(--title-grad);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: 12px;
+    }
+    .section-divider {
+      width: 80px; height: 2px; margin: 0 auto;
+      background: linear-gradient(90deg, transparent, var(--gold-mid), transparent);
+    }
+    .section-separator {
+      border: none; border-top: 1px solid var(--black-border);
+      max-width: 1200px; margin: 0 auto;
+    }
+
+    /* ══ TEAM SECTION ═════════════════════════════════ */
+    .featured-wrap { display: flex; justify-content: center; margin-bottom: 40px; }
+
+    .card-featured {
+      position: relative; width: 320px;
+      background: var(--black-card); border: 1px solid rgba(197,148,26,0.3);
+      text-align: center;
+    }
+    .card-featured::before {
+      content: ''; position: absolute; inset: -1px;
+      background: linear-gradient(160deg, rgba(245,200,66,0.3) 0%, transparent 40%, transparent 60%, rgba(245,200,66,0.12) 100%);
+      pointer-events: none; z-index: 0;
+    }
+    .corner {
+      position: absolute; width: 18px; height: 18px; z-index: 2;
+    }
+    .corner.tl { top: 0; left: 0; border-top: 2px solid var(--gold-mid); border-left: 2px solid var(--gold-mid); }
+    .corner.tr { top: 0; right: 0; border-top: 2px solid var(--gold-mid); border-right: 2px solid var(--gold-mid); }
+    .corner.bl { bottom: 0; left: 0; border-bottom: 2px solid var(--gold-mid); border-left: 2px solid var(--gold-mid); }
+    .corner.br { bottom: 0; right: 0; border-bottom: 2px solid var(--gold-mid); border-right: 2px solid var(--gold-mid); }
+    .card-featured .photo-wrap { position: relative; height: 340px; overflow: hidden; }
+    .card-featured .photo-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+    .card-featured .photo-wrap::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 100px;
+      background: linear-gradient(to top, var(--black-card), transparent);
+    }
+    .card-featured .info { padding: 18px 20px 24px; position: relative; z-index: 1; }
+    .rank-badge {
+      display: inline-block; background: var(--red-brand); color: var(--gold-bright);
+      font-size: 8px; font-weight: 800; letter-spacing: 0.2em;
+      text-transform: uppercase; padding: 3px 10px; margin-bottom: 8px;
+    }
+    .card-featured .name {
+      font-size: 20px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.06em;
+      background: var(--name-grad);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      line-height: 1.1; margin-bottom: 4px;
+    }
+    .card-featured .title { font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); }
+
+    .team-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    @media (min-width: 700px) { .team-grid { grid-template-columns: repeat(4, 1fr); } }
+
+    /* Slim team row */
+    .slim-team {
+      display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;
+    }
+
+    /* ══ Team showcase (photo grid + name list) ═════ */
+    .team-hint {
+      text-align: center; font-size: 10px; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--text-dim); margin-bottom: 36px;
+    }
+    .showcase {
+      display: flex; flex-direction: column; align-items: flex-start;
+      gap: 36px; width: 100%; max-width: 880px; margin: 0 auto;
+      user-select: none;
+    }
+    @media (min-width: 760px) {
+      .showcase { flex-direction: row; gap: 56px; }
+    }
+    /* Left: photo grid */
+    .showcase-grid { display: flex; gap: 10px; flex-shrink: 0; }
+    .showcase-col { display: flex; flex-direction: column; gap: 10px; }
+    .col-b { margin-top: 56px; }
+    .col-c { margin-top: 28px; }
+
+    .show-photo {
+      overflow: hidden; border-radius: 12px; cursor: pointer;
+      flex-shrink: 0; transition: opacity 0.4s, box-shadow 0.4s;
+      border: 1px solid var(--black-border);
+    }
+    .size-a { width: 150px; height: 160px; }
+    .size-b { width: 166px; height: 176px; }
+    .size-c { width: 156px; height: 166px; }
+    @media (max-width: 520px) {
+      .size-a { width: 104px; height: 114px; }
+      .size-b { width: 116px; height: 126px; }
+      .size-c { width: 110px; height: 120px; }
+      .col-b { margin-top: 44px; }
+      .col-c { margin-top: 22px; }
+    }
+    .show-photo img {
+      width: 100%; height: 100%; object-fit: cover; object-position: top center;
+      display: block;
+      filter: grayscale(1) brightness(0.72);
+      transition: filter 0.5s, transform 0.5s;
+    }
+    .show-photo.is-active img { filter: grayscale(0) brightness(1); transform: scale(1.04); }
+    .show-photo.is-active { border-color: rgba(245,200,66,0.6); box-shadow: 0 12px 36px rgba(0,0,0,0.5), 0 0 32px rgba(197,148,26,0.18); }
+    .show-photo.is-dimmed { opacity: 0.55; }
+
+    /* Right: name list */
+    .showcase-list { display: flex; flex-direction: column; gap: 18px; flex: 1; padding-top: 4px; min-width: 240px; }
+    .member-row { cursor: pointer; transition: opacity 0.3s; }
+    .member-row.is-dimmed { opacity: 0.45; }
+    .member-line { display: flex; align-items: center; gap: 10px; }
+    .member-dot {
+      width: 16px; height: 11px; border-radius: 5px; flex-shrink: 0;
+      background: rgba(197,148,26,0.3); transition: width 0.3s, background 0.3s;
+    }
+    .member-row.is-active .member-dot { width: 22px; background: var(--gold-bright); }
+    .member-name {
+      font-size: 18px; font-weight: 800; letter-spacing: 0.01em;
+      text-transform: uppercase; line-height: 1;
+      color: var(--text-muted); transition: color 0.3s;
+    }
+    .member-row.is-active .member-name {
+      background: var(--name-grad);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .member-rank {
+      background: var(--red-brand); color: var(--gold-bright);
+      font-size: 8px; font-weight: 800; letter-spacing: 0.18em;
+      text-transform: uppercase; padding: 3px 8px; margin-left: 4px;
+      opacity: 0; transform: translateX(-8px);
+      transition: opacity 0.25s, transform 0.25s; pointer-events: none;
+    }
+    .member-row.is-active .member-rank { opacity: 1; transform: translateX(0); }
+    .member-role {
+      margin: 7px 0 0; padding-left: 26px;
+      font-size: 10px; font-weight: 600; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--text-muted);
+    }
+    .slim-card {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--black-card); border: 1px solid var(--black-border);
+      padding: 12px 16px; min-width: 200px; flex: 1 1 200px; max-width: 240px;
+      transition: border-color 0.3s;
+    }
+    .slim-card:hover { border-color: rgba(197,148,26,0.35); }
+    .slim-photo {
+      width: 52px; height: 52px; border-radius: 50%;
+      overflow: hidden; flex-shrink: 0;
+      border: 1px solid rgba(197,148,26,0.3);
+    }
+    .slim-photo img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+    .slim-name {
+      font-size: 11px; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.04em; color: var(--gold-mid); line-height: 1.2; margin-bottom: 2px;
+    }
+    .slim-role {
+      font-size: 9px; font-weight: 600; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--text-muted);
+    }
+
+    .card-member {
+      position: relative; background: var(--black-card);
+      border: 1px solid var(--black-border); overflow: hidden;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .card-member:hover { transform: translateY(-5px); border-color: rgba(197,148,26,0.45); }
+    .card-member::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: linear-gradient(90deg, var(--red-vivid), var(--gold-mid));
+      transition: width 0.4s;
+    }
+    .card-member:hover::after { width: 100%; }
+    .card-member .card-star { position: absolute; top: 8px; left: 8px; color: var(--gold-bright); font-size: 11px; z-index: 2; filter: drop-shadow(0 0 4px rgba(245,200,66,0.8)); }
+    .card-member .photo-wrap { position: relative; height: 260px; overflow: hidden; }
+    .card-member .photo-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform 0.4s; }
+    .card-member:hover .photo-wrap img { transform: scale(1.04); }
+    .photo-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,8,8,0.8), transparent 55%); }
+    .card-member .info { padding: 12px 14px 16px; }
+    .card-member .name {
+      font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;
+      background: var(--name-grad);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      line-height: 1.2; margin-bottom: 3px;
+    }
+    .card-member .title { font-size: 9px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); }
+
+    /* ══ NEWS ═════════════════════════════════════════ */
+    .news-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+    @media (min-width: 700px) { .news-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .news-card {
+      background: var(--black-card); border: 1px solid var(--black-border);
+      overflow: hidden; transition: transform 0.3s, border-color 0.3s; cursor: pointer;
+    }
+    .news-card:hover { transform: translateY(-4px); border-color: rgba(197,148,26,0.4); }
+    .news-card .news-thumb {
+      height: 180px; background: var(--black-lift);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .news-card .news-thumb-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--text-dim);
+    }
+    .news-card .news-tag {
+      position: absolute; top: 12px; left: 12px;
+      background: var(--red-brand); color: var(--gold-bright);
+      font-size: 8px; font-weight: 800; letter-spacing: 0.2em;
+      text-transform: uppercase; padding: 3px 8px;
+    }
+    .news-card .news-body { padding: 18px 18px 20px; }
+    .news-card .news-date { font-size: 9px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-mid); margin-bottom: 8px; }
+    .news-card .news-title { font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; color: var(--white); line-height: 1.3; margin-bottom: 8px; }
+    .news-card .news-excerpt { font-size: 11px; font-weight: 500; color: var(--text-muted); line-height: 1.6; }
+
+    /* ══ EVENTS ═══════════════════════════════════════ */
+    .events-list { display: flex; flex-direction: column; gap: 16px; }
+
+    .event-card {
+      display: grid; grid-template-columns: 80px 1fr auto;
+      gap: 20px; align-items: center;
+      background: var(--black-card); border: 1px solid var(--black-border);
+      padding: 20px 24px; transition: border-color 0.3s, transform 0.3s;
+    }
+    .event-card:hover { border-color: rgba(197,148,26,0.45); transform: translateX(4px); }
+    .event-date-box {
+      text-align: center; border: 1px solid var(--black-border); padding: 8px 4px;
+    }
+    .event-date-box .day { font-size: 28px; font-weight: 900; color: var(--gold-bright); line-height: 1; }
+    .event-date-box .month { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-top: 2px; }
+    .event-badge {
+      display: inline-block; background: var(--red-brand); color: var(--gold-bright);
+      font-size: 8px; font-weight: 800; letter-spacing: 0.2em;
+      text-transform: uppercase; padding: 2px 8px; margin-bottom: 6px;
+    }
+    .event-name { font-size: 16px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: var(--white); margin-bottom: 4px; }
+    .event-meta { font-size: 10px; font-weight: 600; color: var(--text-muted); display: flex; gap: 16px; flex-wrap: wrap; }
+    .event-meta span { display: flex; align-items: center; gap: 4px; }
+    .event-action { flex-shrink: 0; }
+    /* btn-register fully handled by .glass-button + .btn-register above */
+
+    /* ══ CIRCULAR TESTIMONIALS ══════════════════════ */
+    .ct-wrap {
+      max-width: 1060px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      border: 1px solid var(--black-border); background: var(--black-card);
+      overflow: hidden;
+    }
+    @media (max-width: 760px) { .ct-wrap { grid-template-columns: 1fr; } }
+    .ct-images {
+      position: relative; height: 420px;
+      perspective: 1000px;
+    }
+    .ct-grid-bg {
+      position: absolute; inset: 0;
+      display: grid; grid-template-columns: repeat(3,1fr);
+      grid-template-rows: repeat(3,1fr); gap: 6px; padding: 6px;
+    }
+    .ct-grid-cell {
+      background: linear-gradient(to bottom, var(--black-lift), var(--black-card));
+      border: 1px solid var(--black-border);
+    }
+    .ct-portrait {
+      position: absolute; left: 0; top: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center 10%;
+      transition: all 0.8s cubic-bezier(0.4,2,0.3,1);
+      border: 1px solid transparent;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+    .ct-content {
+      padding: 40px 36px; display: flex; flex-direction: column;
+      justify-content: center; gap: 14px;
+      border-left: 1px solid var(--black-border);
+    }
+    @media (max-width: 760px) { .ct-content { border-left: none; border-top: 1px solid var(--black-border); padding: 28px 24px; } }
+    .ct-qicon { color: rgba(197,148,26,0.38); width: 40px; height: 40px; display: block; flex-shrink: 0; }
+    .ct-quote-wrap {
+      min-height: 120px;
+      transition: opacity 0.28s ease, transform 0.28s ease;
+    }
+    .ct-quote-wrap.ct-exiting { opacity: 0; transform: translateY(-18px); }
+    .ct-quote-wrap.ct-entering { opacity: 0; transform: translateY(18px); }
+    .ct-quote { font-size: clamp(15px,2vw,17px); font-weight: 500; line-height: 1.7; color: var(--white); margin: 0 0 10px; }
+    .ct-word { display: inline; }
+    .ct-word span { display: inline-block; opacity: 0; filter: blur(10px); transform: translateY(5px); animation: ct-word-in 0.22s ease forwards; }
+    @keyframes ct-word-in { to { opacity: 1; filter: blur(0); transform: translateY(0); } }
+    @media (prefers-reduced-motion: reduce) { .ct-word span { animation: none; opacity: 1; filter: none; transform: none; } }
+    .ct-name { font-size: 22px; font-weight: 700; color: var(--white); margin: 0 0 4px; }
+    .ct-desig { font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-mid); margin: 0 0 16px; }
+    .ct-controls { display: flex; gap: 12px; padding-top: 4px; }
+    .ct-btn {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: #141414; border: none; color: #f1f1f7;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .ct-btn:hover { background: var(--gold-mid); color: #080808; transform: scale(1.08); }
+    .ct-btn:active { transform: scale(0.93); }
+    .ct-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+
+    /* ══ RECOGNITION ══════════════════════════════ */
+    .recognition-grid {
+      display: grid; grid-template-columns: 1.4fr 1fr 1fr;
+      grid-template-rows: auto auto; gap: 20px;
+    }
+    @media (max-width: 800px) { .recognition-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 500px) { .recognition-grid { grid-template-columns: 1fr; } }
+    .recog-card {
+      background: var(--black-card); border: 1px solid var(--black-border);
+      padding: 28px 24px; display: flex; flex-direction: column; gap: 10px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .recog-card:hover { border-color: rgba(197,148,26,0.45); transform: translateY(-4px); }
+    .recog-featured {
+      grid-row: span 2; grid-column: 1;
+      border-color: rgba(197,148,26,0.35);
+      background: linear-gradient(160deg, rgba(197,148,26,0.08) 0%, transparent 60%);
+    }
+    @media (max-width: 800px) { .recog-featured { grid-row: auto; grid-column: auto; } }
+    .recog-icon { font-size: 32px; }
+    .recog-label { font-size: 9px; font-weight: 800; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold-mid); }
+    .recog-name {
+      font-size: 16px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.04em;
+      background: var(--name-grad); -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .recog-desc { font-size: 11px; font-weight: 500; color: var(--text-muted); line-height: 1.6; }
+    .recog-badge {
+      display: inline-block; align-self: flex-start;
+      background: var(--red-brand); color: var(--gold-bright);
+      font-size: 8px; font-weight: 800; letter-spacing: 0.2em;
+      text-transform: uppercase; padding: 3px 10px; margin-top: 4px;
+    }
+
+    /* ══ RESOURCES ═════════════════════════════════ */
+    .resources-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    }
+    @media (max-width: 800px) { .resources-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 500px) { .resources-grid { grid-template-columns: 1fr; } }
+    .resource-card {
+      background: var(--black-card); border: 1px solid var(--black-border);
+      padding: 24px; display: flex; gap: 16px; align-items: flex-start;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .resource-card:hover { border-color: rgba(197,148,26,0.4); transform: translateY(-3px); }
+    .resource-icon { font-size: 26px; flex-shrink: 0; margin-top: 2px; }
+    .resource-body { display: flex; flex-direction: column; gap: 6px; }
+    .resource-tag {
+      display: inline-block; background: var(--red-brand); color: var(--gold-bright);
+      font-size: 7px; font-weight: 800; letter-spacing: 0.2em;
+      text-transform: uppercase; padding: 2px 8px; align-self: flex-start;
+    }
+    .resource-title { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; color: var(--white); }
+    .resource-desc { font-size: 11px; font-weight: 500; color: var(--text-muted); line-height: 1.6; }
+    .resource-actions { margin-top: 8px; }
+
+    /* ══ LEARNING MATERIALS ════════════════════════ */
+    .learning-tabs {
+      display: flex; gap: 4px; margin-bottom: 28px;
+      border-bottom: 1px solid var(--black-border);
+      flex-wrap: wrap;
+    }
+    .ltab {
+      padding: 10px 20px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;
+      background: none; border: none; cursor: pointer;
+      color: var(--text-muted); position: relative;
+      transition: color 0.2s;
+    }
+    .ltab::after {
+      content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 2px;
+      background: var(--gold-bright); transform: scaleX(0);
+      transition: transform 0.25s; transform-origin: left;
+    }
+    .ltab:hover { color: var(--gold-mid); }
+    .ltab.active { color: var(--gold-bright); }
+    .ltab.active::after { transform: scaleX(1); }
+    .learning-panel { display: block; }
+    .learning-panel.hidden { display: none; }
+    .learning-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    }
+    @media (max-width: 800px) { .learning-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 500px) { .learning-grid { grid-template-columns: 1fr; } }
+    .learn-card {
+      background: var(--black-card); border: 1px solid var(--black-border);
+      padding: 24px; display: flex; flex-direction: column; gap: 10px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .learn-card:hover { border-color: rgba(197,148,26,0.4); transform: translateY(-4px); }
+    .learn-step {
+      font-size: 32px; font-weight: 900; line-height: 1;
+      background: var(--name-grad); -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent; background-clip: text;
+      opacity: 0.4;
+    }
+    .learn-title { font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; color: var(--white); line-height: 1.3; }
+    .learn-desc { font-size: 11px; font-weight: 500; color: var(--text-muted); line-height: 1.65; flex: 1; }
+    .learn-meta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 4px; }
+    .learn-meta span { font-size: 9px; font-weight: 600; letter-spacing: 0.1em; color: var(--text-muted); }
+
+    /* ══ MEDIA CENTER (DynamicFrameLayout) ═══════════ */
+    .media-hint {
+      text-align: center; font-size: 10px; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--text-dim); margin-bottom: 24px;
+    }
+    .dfl-grid {
+      display: grid;
+      height: 580px;
+      grid-template-rows: 4fr 4fr 4fr;
+      grid-template-columns: 4fr 4fr 4fr;
+      gap: 4px;
+      transition: grid-template-rows 0.4s ease, grid-template-columns 0.4s ease;
+    }
+    @media (max-width: 600px) { .dfl-grid { height: 360px; } }
+    .mc {
+      position: relative; overflow: hidden;
+      background: var(--black-card);
+      border: 1px solid var(--black-border);
+      cursor: pointer;
+      transition: border-color 0.3s;
+    }
+    .mc:hover { border-color: rgba(197,148,26,0.5); }
+    /* placeholder */
+    .mc-placeholder {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 6px; z-index: 1;
+      transition: opacity 0.3s;
+    }
+    .mc.has-media .mc-placeholder { opacity: 0; pointer-events: none; }
+    .mc-plus {
+      width: 36px; height: 36px;
+      border: 1.5px solid rgba(197,148,26,0.35);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold-mid); font-size: 20px; line-height: 1;
+    }
+    .mc-ph-text {
+      font-size: 8px; font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--text-dim);
+    }
+    /* media layer */
+    .mc-media {
+      position: absolute; inset: 0;
+      display: none; z-index: 2;
+    }
+    .mc.has-media .mc-media { display: block; }
+    .mc-img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: none;
+    }
+    .mc.is-image .mc-img { display: block; }
+    .mc-video {
+      width: 100%; height: 100%;
+      object-fit: cover; display: none;
+    }
+    .mc.is-video .mc-video { display: block; }
+    /* remove overlay */
+    .mc-overlay {
+      position: absolute; top: 8px; right: 8px; z-index: 5;
+      opacity: 0; transition: opacity 0.2s; pointer-events: none;
+    }
+    .mc:hover .mc-overlay { opacity: 1; pointer-events: auto; }
+    .mc-remove {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: rgba(8,8,8,0.75); border: 1px solid rgba(197,148,26,0.4);
+      color: var(--gold-bright); font-size: 11px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .mc-remove:hover { background: var(--red-brand); }
+    /* gold corner brackets on hovered cell */
+    .mc::before, .mc::after {
+      content: ''; position: absolute; z-index: 4;
+      pointer-events: none; opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .mc::before {
+      top: 6px; left: 6px; width: 16px; height: 16px;
+      border-top: 2px solid var(--gold-bright); border-left: 2px solid var(--gold-bright);
+    }
+    .mc::after {
+      bottom: 6px; right: 6px; width: 16px; height: 16px;
+      border-bottom: 2px solid var(--gold-bright); border-right: 2px solid var(--gold-bright);
+    }
+    .mc:hover::before, .mc:hover::after { opacity: 1; }
+    /* drag-over state */
+    .mc.drag-over {
+      border-color: var(--gold-bright);
+      background: rgba(197,148,26,0.08);
+    }
+    .mc-input { display: none; }
+
+    /* ══ FOOTER ═══════════════════════════════════════ */
+    footer {
+      text-align: center; padding: 36px 24px 52px;
+      border-top: 1px solid var(--black-border); margin-top: 32px;
+    }
+    .footer-stars { display: flex; justify-content: center; gap: 8px; margin-bottom: 14px; }
+    .footer-stars span { color: var(--gold-mid); font-size: 12px; }
+    .footer-tagline { font-size: 13px; font-weight: 800; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold-mid); margin-bottom: 6px; }
+    .footer-brand { font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); }
+  </style>
+  <script>
+    // Apply saved theme ASAP to avoid flash-of-wrong-theme
+    (function() {
+      try {
+        var mode = localStorage.getItem('generals-theme') || 'dark';
+        var sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var resolved = mode === 'system' ? (sysDark ? 'dark' : 'light') : mode;
+        document.documentElement.setAttribute('data-theme', resolved);
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- Site-wide meteors -->
+  <div class="meteor-layer" id="meteorLayer" aria-hidden="true"></div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">
+      <img src="assets/logo.jpg" alt="The Generals AICONS" />
+      <span>The Generals AICONS</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#team">Team</a></li>
+      <li><a href="#news">News</a></li>
+      <li><a href="#events">Events</a></li>
+
+      <!-- Success Stories dropdown -->
+      <li id="nav-success">
+        <button class="nav-parent-btn" aria-haspopup="true" aria-expanded="false">
+          Success Stories <span class="nav-chevron"></span>
+        </button>
+        <div class="nav-dropdown" role="menu">
+          <div class="nav-dropdown-label">Success Stories</div>
+          <a href="#testimonials" role="menuitem"><span class="dd-icon">★</span>Testimonials</a>
+          <a href="#recognition" role="menuitem"><span class="dd-icon">🏆</span>Recognition</a>
+        </div>
+      </li>
+
+      <!-- Training Hub dropdown -->
+      <li id="nav-training">
+        <button class="nav-parent-btn" aria-haspopup="true" aria-expanded="false">
+          Training Hub <span class="nav-chevron"></span>
+        </button>
+        <div class="nav-dropdown" role="menu">
+          <div class="nav-dropdown-label">Training Hub</div>
+          <a href="#resources" role="menuitem"><span class="dd-icon">📁</span>Resources</a>
+          <a href="#learning" role="menuitem"><span class="dd-icon">📖</span>Learning Materials</a>
+        </div>
+      </li>
+
+      <li><a href="#media">Media Center</a></li>
+      <li>
+        <div class="theme-toggle" id="themeToggle" role="radiogroup" aria-label="Color theme">
+          <span class="tt-knob" id="ttKnob"></span>
+          <button class="tt-opt" data-mode="light" role="radio" aria-label="Light mode" title="Light">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          </button>
+          <button class="tt-opt" data-mode="system" role="radio" aria-label="System theme" title="System">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </button>
+          <button class="tt-opt" data-mode="dark" role="radio" aria-label="Dark mode" title="Dark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+          </button>
+        </div>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div id="mountainScene" class="hero-bg-scene"></div>
+
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="hero-eyebrow">The Generals AICONS</p>
+        <h1 class="hero-title">Join the Generals</h1>
+        <p class="hero-sub">Be Part of Something Bigger</p>
+        <p class="hero-desc">A movement of leaders, builders, and champions. Whether you're just starting out or ready to rise — there's a place for you in The Generals AICONS.</p>
+        <div class="hero-benefits">
+          <span>★ Proven System</span>
+          <span>★ World-Class Mentorship</span>
+          <span>★ Unlimited Income</span>
+        </div>
+        <div class="hero-ctas">
+          <div class="glass-button-wrap">
+            <a href="#events" class="glass-button btn-join">
+              <span class="glass-button-text">Join the Team</span>
+            </a>
+            <div class="glass-button-shadow btn-join-shadow"></div>
+          </div>
+          <div class="glass-button-wrap">
+            <a href="#team" class="glass-button btn-meet">
+              <span class="glass-button-text">Meet Our Leaders</span>
+            </a>
+            <div class="glass-button-shadow btn-meet-shadow"></div>
+          </div>
+        </div>
+        <p class="hero-tagline">Lead &nbsp;·&nbsp; Conquer &nbsp;·&nbsp; Dominate</p>
+      </div>
+
+      <div class="hero-video-wrap">
+        <div class="corner tl"></div><div class="corner tr"></div>
+        <div class="corner bl"></div><div class="corner br"></div>
+        <video id="heroVideo" class="hero-video" src="assets/generals-hero.mp4" autoplay muted loop playsinline></video>
+        <button class="hero-video-sound" id="soundToggle" aria-label="Toggle sound">♪ Tap for sound</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══ TEAM ══════════════════════════════════════════ -->
+  <hr class="section-separator" />
+  <section id="team" style="padding: 48px 40px;">
+    <div class="section-head">
+      <div class="section-eyebrow">Our People</div>
+      <div class="section-title" style="font-size: clamp(18px,2.5vw,28px);">Leadership Team</div>
+      <div class="section-divider"></div>
+    </div>
+
+    <p class="team-hint">Hover — or tap on mobile — to bring a leader into focus</p>
+    <div class="showcase" id="teamShowcase">
+      <!-- Left: staggered photo grid -->
+      <div class="showcase-grid">
+        <div class="showcase-col col-a">
+          <div class="show-photo size-a" data-member="ryan">
+            <img src="assets/team/ryan_jay_bullas.png" alt="Ryan Jay Bullas" />
+          </div>
+          <div class="show-photo size-a" data-member="jay">
+            <img src="assets/team/jay_faderogaya.png" alt="Jay Faderogaya" />
+          </div>
+        </div>
+        <div class="showcase-col col-b">
+          <div class="show-photo size-b" data-member="merlinda">
+            <img src="assets/team/merlinda_rodriguez.png" alt="Merlinda Rodriguez" />
+          </div>
+          <div class="show-photo size-b" data-member="leonard">
+            <img src="assets/team/leonard_caguicla.png" alt="Leonard Caguicla" />
+          </div>
+        </div>
+        <div class="showcase-col col-c">
+          <div class="show-photo size-c" data-member="juanito">
+            <img src="assets/team/juanito_tabuzo.png" alt="Juanito Tabuzo" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: member name list -->
+      <div class="showcase-list">
+        <div class="member-row" data-member="ryan">
+          <div class="member-line">
+            <span class="member-dot"></span>
+            <span class="member-name">Ryan Jay Bullas</span>
+            <span class="member-rank">★ Commander</span>
+          </div>
+          <p class="member-role">AiConnect Top 3 Worldwide — AiCons The Generals Founder and Coach</p>
+        </div>
+        <div class="member-row" data-member="merlinda">
+          <div class="member-line">
+            <span class="member-dot"></span>
+            <span class="member-name">Merlinda Rodriguez</span>
+            <span class="member-rank">★ General</span>
+          </div>
+          <p class="member-role">Top Leader</p>
+        </div>
+        <div class="member-row" data-member="juanito">
+          <div class="member-line">
+            <span class="member-dot"></span>
+            <span class="member-name">Juanito Tabuzo</span>
+            <span class="member-rank">★ General</span>
+          </div>
+          <p class="member-role">Top Leader</p>
+        </div>
+        <div class="member-row" data-member="jay">
+          <div class="member-line">
+            <span class="member-dot"></span>
+            <span class="member-name">Jay Faderogaya</span>
+            <span class="member-rank">★ General</span>
+          </div>
+          <p class="member-role">Top Leader</p>
+        </div>
+        <div class="member-row" data-member="leonard">
+          <div class="member-line">
+            <span class="member-dot"></span>
+            <span class="member-name">Leonard Caguicla</span>
+            <span class="member-rank">★ General</span>
+          </div>
+          <p class="member-role">Top Leader</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ NEWS ══════════════════════════════════════════ -->
+  <hr class="section-separator" />
+  <section id="news">
+    <div class="section-head">
+      <div class="section-eyebrow">Latest Updates</div>
+      <div class="section-title">News &amp; Announcements</div>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="news-grid">
+      <div class="news-card">
+        <div class="news-thumb" style="padding:0;overflow:hidden;">
+          <img src="assets/news-announcement.jpg" alt="Team Event" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block;" />
+          <span class="news-tag" style="position:absolute;top:10px;left:10px;z-index:2;">Announcement</span>
+        </div>
+        <div class="news-body">
+          <div class="news-date">June 13, 2026</div>
+          <div class="news-title">New Rank Milestone Achieved!</div>
+          <div class="news-excerpt">Our team has officially crossed the Diamond rank threshold — a historic achievement for the Generals AICONS division.</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-thumb" style="padding:0;overflow:hidden;">
+          <img src="assets/news-training.jpg" alt="Team Training" style="width:100%;height:100%;object-fit:cover;object-position:center 40%;display:block;" />
+          <span class="news-tag" style="position:absolute;top:10px;left:10px;z-index:2;">Training</span>
+        </div>
+        <div class="news-body">
+          <div class="news-date">June 10, 2026</div>
+          <div class="news-title">Leadership Masterclass — Recap</div>
+          <div class="news-excerpt">Over 200 members attended last week's leadership masterclass. Key highlights and takeaways are now available for the team.</div>
+        </div>
+      </div>
+      <div class="news-card">
+        <div class="news-thumb" style="padding:0;overflow:hidden;">
+          <img src="assets/news-recognition.png" alt="AICONS The Generals Grand Business Presentation" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;" />
+          <span class="news-tag" style="position:absolute;top:10px;left:10px;z-index:2;">Recognition</span>
+        </div>
+        <div class="news-body">
+          <div class="news-date">June 15, 2026</div>
+          <div class="news-title">Grand Business Presentation</div>
+          <div class="news-excerpt">Join us at Jollibee, Hon. B. Soliven St., Commonwealth, Quezon City — 10:00 AM to 12:00 NN. Featuring Ryan Jay Bullas, Dra. Merlinda Rodriguez, and all top leaders.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ EVENTS ═════════════════════════════════════════ -->
+  <hr class="section-separator" />
+  <section id="events">
+    <div class="section-head">
+      <div class="section-eyebrow">Mark Your Calendar</div>
+      <div class="section-title">Upcoming Events &amp; Seminars</div>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="events-list">
+
+      <div class="event-card">
+        <div class="event-date-box">
+          <div class="day">07</div>
+          <div class="month">Jun</div>
+        </div>
+        <div class="event-info">
+          <span class="event-badge">★ In-Person</span>
+          <div class="event-name">Discover a Better Way to Earn</div>
+          <div class="event-meta">
+            <span>📍 Makkhan Boodle Restaurant, Santiago, Isabela</span>
+            <span>🕑 5:00 PM — Sunday</span>
+            <span>👥 Open to all — limited seats</span>
+          </div>
+        </div>
+        <div class="event-action">
+          <div class="glass-button-wrap btn-register-wrap">
+            <button class="glass-button btn-register">
+              <span class="glass-button-text">Register</span>
+            </button>
+            <div class="glass-button-shadow btn-register-shadow"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-card">
+        <div class="event-date-box">
+          <div class="day">14</div>
+          <div class="month">Jun</div>
+        </div>
+        <div class="event-info">
+          <span class="event-badge">★ Grand Event</span>
+          <div class="event-name">AICONS The Generals — Grand Business Presentation</div>
+          <div class="event-meta">
+            <span>📍 Jollibee Batangas, P Burgos St Cor D. Silang St., Batangas City</span>
+            <span>🕑 2:00 PM — June 14, 2026</span>
+            <span>👥 All members &amp; guests</span>
+          </div>
+        </div>
+        <div class="event-action">
+          <div class="glass-button-wrap btn-register-wrap">
+            <button class="glass-button btn-register">
+              <span class="glass-button-text">Register</span>
+            </button>
+            <div class="glass-button-shadow btn-register-shadow"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-card">
+        <div class="event-date-box">
+          <div class="day">15</div>
+          <div class="month">Jun</div>
+        </div>
+        <div class="event-info">
+          <span class="event-badge">★ Grand Event</span>
+          <div class="event-name">AICONS The Generals — Grand Business Presentation</div>
+          <div class="event-meta">
+            <span>📍 Jollibee, Hon. B. Soliven St., Commonwealth, Quezon City</span>
+            <span>🕑 10:00 AM — 12:00 NN</span>
+            <span>👥 All members &amp; guests</span>
+          </div>
+        </div>
+        <div class="event-action">
+          <div class="glass-button-wrap btn-register-wrap">
+            <button class="glass-button btn-register">
+              <span class="glass-button-text">Register</span>
+            </button>
+            <div class="glass-button-shadow btn-register-shadow"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-card">
+        <div class="event-date-box">
+          <div class="day">16</div>
+          <div class="month">Jun</div>
+        </div>
+        <div class="event-info">
+          <span class="event-badge">★ Online</span>
+          <div class="event-name">AiConnect Business Opportunity</div>
+          <div class="event-meta">
+            <span>📍 via Zoom</span>
+            <span>🕑 8:30 PM — Tuesday</span>
+            <span>👥 AICONS × Generals × United</span>
+          </div>
+        </div>
+        <div class="event-action">
+          <div class="glass-button-wrap btn-register-wrap">
+            <button class="glass-button btn-register">
+              <span class="glass-button-text">Register</span>
+            </button>
+            <div class="glass-button-shadow btn-register-shadow"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ MEDIA CENTER ══════════════════════════════════ -->
+  <hr class="section-separator" />
+  <section id="media">
+    <div class="section-head">
+      <div class="section-eyebrow">Photos &amp; Videos</div>
+      <div class="section-title">Media Center</div>
+      <div class="section-divider"></div>
+    </div>
+    <p class="media-hint"> HOVER TO EXPAND</p>
+
+    <div class="dfl-grid" id="mediaGrid">
+
+      <div class="mc has-media is-image" data-row="0" data-col="0" id="mc-0" data-default-src="assets/media/mc-0.jpg" data-default-type="image">
+        <div class="mc-placeholder"><span class="mc-plus">+</span><span class="mc-ph-text">Add Media</span></div>
+        <div class="mc-media"><img class="mc-img" src="assets/media/mc-0.jpg" /><video class="mc-video" loop muted playsinline></video></div>
+        <div class="mc-overlay"><button class="mc-remove" title="Remove">✕</button></div>
+        <input type="file" class="mc-input" accept="image/*,video/mp4,video/webm,video/mov,video/*" />
+      </div>
+
+      <div class="mc has-media is-video" data-row="0" data-col="1" id="mc-1" data-default-src="assets/generals-event.mp4" data-default-type="video">
+        <div class="mc-placeholder"><span class="mc-plus">+</span><span class="mc-ph-text">Add Media</span></div>
+        <div class="mc-media"><img class="mc-img" /><video class="mc-video" loop muted playsinline src="assets/generals-event.mp4"></video></div>
+        <div class="mc-overlay"><button class="mc-remove" title="Remove">✕</button></div>
+        <input type="file" class="mc-input" accept="image/*,video/*" />
+      </div>
+
+      <div class="mc has-media is-image" data-row="0" data-col="2" id="mc-2" data-default-src="assets/news-announcement.jpg" data-default-type="image">
+        <div class="mc-placeholder"><span class="mc-plus">+</span><span class="mc-ph-text">Add Media</span></div>
+        <div class="mc-media"><img class="mc-img" src="assets/news-announcement.jpg" /><video class="mc-video" loop muted playsinline></video></div>
+        <div class="mc-overlay"><button class="mc-remove" title="Remove">✕</button></div>
+        <input type="file" class="mc-input" accept="image/*,video/*" />
+      </div>
+
+      <div class="mc has-media is-image" data-row="1" data-col="0" id="mc-3" data-default-src="assets/media/mc-3.png" data-default-type="image">
+        <div class="mc-placeholder"><span class="mc-plus">+</span><span class="mc-ph-text">Add Media</span></div>
+        <div class="mc-media"><img class="mc-img" src="assets/media/mc-3.png" /><video class="mc-video" loop muted playsinline></video></div>
+        <div class="mc-overlay"><button class="mc-remove" title="Remove">✕</button></div>
+        <input type="file" class="mc-input" accept="image/*,video/*" />
+      </div>
+
+      <div class="mc has-media is-video" data-row="1" data-col="1" id="mc-4" data-default-src="assets/generals-event2.mp4" data-default-type="video">
+        <div class="mc-placeholder"><span class="mc-plus">+</span><span class="mc-ph-text">Add Media</span></div>
+        <div class="mc-media"><img class="mc-img" /><video class="mc-video" loop muted playsinline src="assets/generals-event2.mp4"></video></div>
+        <div class="mc-overlay"><button class="mc-remove" title="Remove">✕</button></div>
+        <input type="file" class="mc-input" accept="image/*,video/*" />
+      </div>
+
+      <div class="mc has-media is-image" data-row="1" data-col="2" id="mc-5" data-default-src="assets/media/mc-5.jpg" data-default-type="image">
+        <div class="mc-placeholder"><span class="mc-plus">+</span><span class="mc-ph-text">Add Media</span></div>
+        <div class="mc-media"><img class="mc-img" src="assets/media/mc-5.jpg" /><video class="mc-video" loop muted playsinline></video></div>
+        <div class="mc-overlay"><button class="mc-remove" title="Remove">✕</button></div>
+        <input type="file" class="mc-input" accept="image/*,video/*" />
+      </div>
+
+      <div class="mc has-media is-image" data-row="2" data-col="0" id="mc-6" data-default-src="assets/media/mc-6.jpg" data-default-type="image">
+        <div class="mc-placeholder"><span class="mc-plus">+</span><span class="mc-ph-text">Add Media</span></div>
+        <div class="mc-media"><img class="mc-img" src="assets/media/mc-6.jpg" /><video class="mc-video" loop muted playsinline></video></div>
+        <div class="mc-overlay"><button class="mc-remove" title="Remove">✕</button></div>
+        <input type="file" class="mc-input" accept="image/*,video/*" />
+      </div>
+
+      <div class="mc has-media is-image" data-row="2" data-col="1" id="mc-7" data-default-src="assets/media/mc-7.jpg" data-default-type="image">
+        <div class="mc-placeholder"><span class="mc-plus">+</span><span class="mc-ph-text">Add Media</span></div>
+        <div class="mc-media"><img class="mc-img" src="assets/media/mc-7.jpg" /><video class="mc-video" loop muted playsinline></video></div>
+        <div class="mc-overlay"><button class="mc-remove" title="Remove">✕</button></div>
+        <input type="file" class="mc-input" accept="image/*,video/*" />
+      </div>
+
+      <div class="mc has-media is-image" data-row="2" data-col="2" id="mc-8" data-default-src="assets/media/mc-8.jpg" data-default-type="image">
+        <div class="mc-placeholder"><span class="mc-plus">+</span><span class="mc-ph-text">Add Media</span></div>
+        <div class="mc-media"><img class="mc-img" src="assets/media/mc-8.jpg" /><video class="mc-video" loop muted playsinline></video></div>
+        <div class="mc-overlay"><button class="mc-remove" title="Remove">✕</button></div>
+        <input type="file" class="mc-input" accept="image/*,video/*" />
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ TESTIMONIALS (Circular) ════════════════════ -->
+  <hr class="section-separator" />
+  <section id="testimonials">
+    <div class="section-head">
+      <div class="section-eyebrow">What Our Members Say</div>
+      <div class="section-title">Testimonials</div>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="ct-wrap">
+      <!-- Left: image grid -->
+      <div class="ct-images" id="ctImages">
+        <div class="ct-grid-bg">
+          <div class="ct-grid-cell"></div><div class="ct-grid-cell"></div><div class="ct-grid-cell"></div>
+          <div class="ct-grid-cell"></div><div class="ct-grid-cell"></div><div class="ct-grid-cell"></div>
+          <div class="ct-grid-cell"></div><div class="ct-grid-cell"></div><div class="ct-grid-cell"></div>
+        </div>
+        <img class="ct-portrait" src="assets/team/merlinda_rodriguez.png" alt="Merlinda Rodriguez" />
+        <img class="ct-portrait" src="assets/team/jay_faderogaya.png"     alt="Jay Faderogaya"     />
+        <img class="ct-portrait" src="assets/team/juanito_tabuzo.png"     alt="Juanito Tabuzo"     />
+        <img class="ct-portrait" src="assets/team/leonard_caguicla.png"   alt="Leonard Caguicla"   />
+        <img class="ct-portrait" src="assets/team/ryan_jay_bullas.png"    alt="Ryan Jay Bullas"    />
+      </div>
+      <!-- Right: content -->
+      <div class="ct-content">
+        <svg class="ct-qicon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M4.58 17.32C3.55 16.23 3 15 3 13.01c0-3.5 2.46-6.64 6.03-8.19l.9 1.38c-3.34 1.8-4 4.15-4.25 5.62.54-.28 1.24-.38 1.93-.31 1.8.17 3.23 1.65 3.23 3.49a3.5 3.5 0 0 1-3.5 3.5c-1.07 0-2.1-.49-2.75-1.18zm10 0C13.55 16.23 13 15 13 13.01c0-3.5 2.46-6.64 6.03-8.19l.9 1.38c-3.34 1.8-4 4.15-4.25 5.62.54-.28 1.24-.38 1.93-.31 1.8.17 3.23 1.65 3.23 3.49a3.5 3.5 0 0 1-3.5 3.5c-1.07 0-2.1-.49-2.75-1.18z"/>
+        </svg>
+        <div class="ct-quote-wrap" id="ctQuoteWrap" aria-live="polite">
+          <p class="ct-quote" id="ctQuote"></p>
+          <h3 class="ct-name" id="ctName">Juanito Tabuzo</h3>
+          <p class="ct-desig" id="ctDesig"></p>
+        </div>
+        <div class="ct-controls">
+          <button class="ct-btn" id="ctPrev" aria-label="Previous testimonial">
+            <svg viewBox="0 0 14 14"><polyline points="9,2 4,7 9,12"/></svg>
+          </button>
+          <button class="ct-btn" id="ctNext" aria-label="Next testimonial">
+            <svg viewBox="0 0 14 14"><polyline points="5,2 10,7 5,12"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <!-- ══ RECOGNITION ════════════════════════════════ -->
+  <hr class="section-separator" />
+  <section id="recognition">
+    <div class="section-head">
+      <div class="section-eyebrow">Milestones &amp; Awards</div>
+      <div class="section-title">Recognition</div>
+      <div class="section-divider"></div>
+    </div>
+    <div class="recognition-grid">
+
+      <div class="recog-card recog-featured">
+        <div class="recog-icon">🏆</div>
+        <div class="recog-label">Top Team Award</div>
+        <div class="recog-name">Ryan Jay Bullas</div>
+        <div class="recog-desc">Q2 2026 National Convention &mdash; Highest team growth in the division</div>
+        <div class="recog-badge">Commander</div>
+      </div>
+
+      <div class="recog-card">
+        <div class="recog-icon">💎</div>
+        <div class="recog-label">Diamond Achiever</div>
+        <div class="recog-name">Merlinda Rodriguez</div>
+        <div class="recog-desc">Reached Diamond rank in record time &mdash; 5 months</div>
+        <div class="recog-badge">Diamond</div>
+      </div>
+
+      <div class="recog-card">
+        <div class="recog-icon">⭐</div>
+        <div class="recog-label">Rising Star</div>
+        <div class="recog-name">Jay Faderogaya</div>
+        <div class="recog-desc">Fastest-growing downline in June 2026 with 40+ recruits</div>
+        <div class="recog-badge">Gold</div>
+      </div>
+
+      <div class="recog-card">
+        <div class="recog-icon">📈</div>
+        <div class="recog-label">Top Earner</div>
+        <div class="recog-name">Juanito Tabuzo</div>
+        <div class="recog-desc">Consistent top 3 earner across Q1 and Q2 2026</div>
+        <div class="recog-badge">Gold</div>
+      </div>
+
+      <div class="recog-card">
+        <div class="recog-icon">💪</div>
+        <div class="recog-label">Consistency Award</div>
+        <div class="recog-name">Leonard Caguicla</div>
+        <div class="recog-desc">Zero-miss recruitment streak for 8 consecutive weeks</div>
+        <div class="recog-badge">Silver</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ RESOURCES ══════════════════════════════════ -->
+  <hr class="section-separator" />
+  <section id="resources">
+    <div class="section-head">
+      <div class="section-eyebrow">Training Hub</div>
+      <div class="section-title">Resources</div>
+      <div class="section-divider"></div>
+    </div>
+    <div class="resources-grid">
+
+      <div class="resource-card">
+        <div class="resource-icon">📊</div>
+        <div class="resource-body">
+          <div class="resource-tag">Presentation</div>
+          <div class="resource-title">Business Overview Deck</div>
+          <div class="resource-desc">The official Generals AICONS opportunity presentation. Use this in your BOS and one-on-one meetings.</div>
+          <div class="resource-actions">
+            <div class="glass-button-wrap"><button class="glass-button btn-register"><span class="glass-button-text">↓ Download</span></button><div class="glass-button-shadow btn-register-shadow"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="resource-card">
+        <div class="resource-icon">📞</div>
+        <div class="resource-body">
+          <div class="resource-tag">Script</div>
+          <div class="resource-title">Invitation Script Guide</div>
+          <div class="resource-desc">Proven word-for-word scripts for cold market, warm market, and social media prospecting.</div>
+          <div class="resource-actions">
+            <div class="glass-button-wrap"><button class="glass-button btn-register"><span class="glass-button-text">↓ Download</span></button><div class="glass-button-shadow btn-register-shadow"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="resource-card">
+        <div class="resource-icon">📅</div>
+        <div class="resource-body">
+          <div class="resource-tag">Planner</div>
+          <div class="resource-title">90-Day Action Planner</div>
+          <div class="resource-desc">Your roadmap for the first 90 days. Daily tasks, weekly targets, and milestone trackers included.</div>
+          <div class="resource-actions">
+            <div class="glass-button-wrap"><button class="glass-button btn-register"><span class="glass-button-text">↓ Download</span></button><div class="glass-button-shadow btn-register-shadow"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="resource-card">
+        <div class="resource-icon">📱</div>
+        <div class="resource-body">
+          <div class="resource-tag">Social Media</div>
+          <div class="resource-title">Social Media Content Kit</div>
+          <div class="resource-desc">Ready-to-post graphics, captions, and story templates branded for The Generals AICONS.</div>
+          <div class="resource-actions">
+            <div class="glass-button-wrap"><button class="glass-button btn-register"><span class="glass-button-text">↓ Download</span></button><div class="glass-button-shadow btn-register-shadow"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="resource-card">
+        <div class="resource-icon">🔗</div>
+        <div class="resource-body">
+          <div class="resource-tag">Link</div>
+          <div class="resource-title">Company Back-Office Portal</div>
+          <div class="resource-desc">Access your genealogy, commissions, rank tracker, and official training library.</div>
+          <div class="resource-actions">
+            <div class="glass-button-wrap"><button class="glass-button btn-register"><span class="glass-button-text">→ Open Portal</span></button><div class="glass-button-shadow btn-register-shadow"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="resource-card">
+        <div class="resource-icon">💬</div>
+        <div class="resource-body">
+          <div class="resource-tag">Community</div>
+          <div class="resource-title">Team Group Chat</div>
+          <div class="resource-desc">Join the official Generals AICONS Messenger group for real-time updates, announcements, and team support.</div>
+          <div class="resource-actions">
+            <div class="glass-button-wrap"><button class="glass-button btn-register"><span class="glass-button-text">→ Join Group</span></button><div class="glass-button-shadow btn-register-shadow"></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ LEARNING MATERIALS ═════════════════════════ -->
+  <hr class="section-separator" />
+  <section id="learning">
+    <div class="section-head">
+      <div class="section-eyebrow">Training Hub</div>
+      <div class="section-title">Learning Materials</div>
+      <div class="section-divider"></div>
+    </div>
+    <div class="learning-tabs" id="learningTabs">
+      <button class="ltab active" data-tab="fundamentals">Fundamentals</button>
+      <button class="ltab" data-tab="leadership">Leadership</button>
+      <button class="ltab" data-tab="duplication">Duplication</button>
+      <button class="ltab" data-tab="mindset">Mindset</button>
+    </div>
+
+    <div class="learning-panel" id="tab-fundamentals">
+      <div class="learning-grid">
+        <div class="learn-card">
+          <div class="learn-step">01</div>
+          <div class="learn-title">What is Network Marketing?</div>
+          <div class="learn-desc">An introduction to the business model, compensation plan, and why it works.</div>
+          <div class="learn-meta"><span>⏱ 12 min read</span><span>📊 Beginner</span></div>
+        </div>
+        <div class="learn-card">
+          <div class="learn-step">02</div>
+          <div class="learn-title">Your Why &amp; Setting Goals</div>
+          <div class="learn-desc">Define your purpose and build a 30/60/90 day goal map that keeps you moving.</div>
+          <div class="learn-meta"><span>⏱ 8 min read</span><span>📊 Beginner</span></div>
+        </div>
+        <div class="learn-card">
+          <div class="learn-step">03</div>
+          <div class="learn-title">Building Your Prospect List</div>
+          <div class="learn-desc">How to write your warm market list and where to find cold market leads.</div>
+          <div class="learn-meta"><span>⏱ 10 min read</span><span>📊 Beginner</span></div>
+        </div>
+        <div class="learn-card">
+          <div class="learn-step">04</div>
+          <div class="learn-title">The Invitation Formula</div>
+          <div class="learn-desc">A simple, repeatable approach to inviting prospects to your BOS without pressure.</div>
+          <div class="learn-meta"><span>⏱ 15 min read</span><span>📊 Beginner</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="learning-panel hidden" id="tab-leadership">
+      <div class="learning-grid">
+        <div class="learn-card">
+          <div class="learn-step">01</div>
+          <div class="learn-title">Leading by Example</div>
+          <div class="learn-desc">Your team duplicates what you do, not what you say. Learn to be the proof.</div>
+          <div class="learn-meta"><span>⏱ 14 min read</span><span>📊 Intermediate</span></div>
+        </div>
+        <div class="learn-card">
+          <div class="learn-step">02</div>
+          <div class="learn-title">Running Effective Team Meetings</div>
+          <div class="learn-desc">Structure, agenda, and energy management for weekly meetings that actually move the needle.</div>
+          <div class="learn-meta"><span>⏱ 18 min read</span><span>📊 Intermediate</span></div>
+        </div>
+        <div class="learn-card">
+          <div class="learn-step">03</div>
+          <div class="learn-title">Conflict Resolution in Your Team</div>
+          <div class="learn-desc">How to handle disputes, inactivity, and toxic dynamics with grace and authority.</div>
+          <div class="learn-meta"><span>⏱ 11 min read</span><span>📊 Advanced</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="learning-panel hidden" id="tab-duplication">
+      <div class="learning-grid">
+        <div class="learn-card">
+          <div class="learn-step">01</div>
+          <div class="learn-title">The Duplication System</div>
+          <div class="learn-desc">The exact step-by-step process to onboard a new member and get them producing in week one.</div>
+          <div class="learn-meta"><span>⏱ 20 min read</span><span>📊 Intermediate</span></div>
+        </div>
+        <div class="learn-card">
+          <div class="learn-step">02</div>
+          <div class="learn-title">Power of the Follow-Up</div>
+          <div class="learn-desc">Fortune is in the follow-up. Master the timing, language, and channels for maximum conversion.</div>
+          <div class="learn-meta"><span>⏱ 9 min read</span><span>📊 Intermediate</span></div>
+        </div>
+        <div class="learn-card">
+          <div class="learn-step">03</div>
+          <div class="learn-title">Building Width vs. Depth</div>
+          <div class="learn-desc">Strategic team-building: when to recruit wide and when to develop depth for passive income.</div>
+          <div class="learn-meta"><span>⏱ 13 min read</span><span>📊 Advanced</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="learning-panel hidden" id="tab-mindset">
+      <div class="learning-grid">
+        <div class="learn-card">
+          <div class="learn-step">01</div>
+          <div class="learn-title">Overcoming Fear of Rejection</div>
+          <div class="learn-desc">Reframe rejection as redirection. Build the mental resilience to stay consistent.</div>
+          <div class="learn-meta"><span>⏱ 10 min read</span><span>📊 Beginner</span></div>
+        </div>
+        <div class="learn-card">
+          <div class="learn-step">02</div>
+          <div class="learn-title">The General’s Mindset</div>
+          <div class="learn-desc">Think like a commander. Discipline, vision, and daily habits of top earners in our division.</div>
+          <div class="learn-meta"><span>⏱ 16 min read</span><span>📊 Intermediate</span></div>
+        </div>
+        <div class="learn-card">
+          <div class="learn-step">03</div>
+          <div class="learn-title">Financial Literacy for Networkers</div>
+          <div class="learn-desc">How to manage, save, and reinvest your commissions to build lasting wealth.</div>
+          <div class="learn-meta"><span>⏱ 22 min read</span><span>📊 Advanced</span></div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-stars">
+      <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+    </div>
+    <div class="footer-tagline">Lead · Conquer · Dominate</div>
+    <div class="footer-brand">The Generals AICONS &nbsp;|&nbsp; MLM Leadership Division &nbsp;|&nbsp; 2026</div>
+  </footer>
+
+  <script>
+    // ── Media Center (DynamicFrameLayout) ───────────
+    (function() {
+      const HOVER = 6, NORMAL = 3; // fractions: 6+3+3 = 12
+      const grid = document.getElementById('mediaGrid');
+      if (!grid) return;
+
+      // ── Grid expansion on hover ──
+      grid.addEventListener('mouseover', e => {
+        const cell = e.target.closest('.mc');
+        if (!cell) return;
+        const row = +cell.dataset.row, col = +cell.dataset.col;
+        grid.style.gridTemplateRows = [0,1,2].map(r => r===row ? `${HOVER}fr` : `${NORMAL}fr`).join(' ');
+        grid.style.gridTemplateColumns = [0,1,2].map(c => c===col ? `${HOVER}fr` : `${NORMAL}fr`).join(' ');
+        // play video if cell has one
+        const vid = cell.querySelector('.mc-video');
+        if (cell.classList.contains('is-video') && vid) vid.play().catch(()=>{});
+      });
+      grid.addEventListener('mouseleave', () => {
+        grid.style.gridTemplateRows = '4fr 4fr 4fr';
+        grid.style.gridTemplateColumns = '4fr 4fr 4fr';
+        // pause all videos
+        grid.querySelectorAll('.mc-video').forEach(v => { v.pause(); v.currentTime = 0; });
+      });
+
+      // ── Per-cell setup ──
+      grid.querySelectorAll('.mc').forEach(cell => {
+        const input = cell.querySelector('.mc-input');
+        const removeBtn = cell.querySelector('.mc-remove');
+
+        // click placeholder → open file picker
+        cell.querySelector('.mc-placeholder').addEventListener('click', () => input.click());
+
+        // file selected
+        input.addEventListener('change', () => {
+          const file = input.files[0];
+          if (file) loadMedia(cell, file);
+          input.value = '';
+        });
+
+        // drag and drop
+        cell.addEventListener('dragover', e => { e.preventDefault(); cell.classList.add('drag-over'); });
+        cell.addEventListener('dragleave', () => cell.classList.remove('drag-over'));
+        cell.addEventListener('drop', e => {
+          e.preventDefault();
+          cell.classList.remove('drag-over');
+          const file = e.dataTransfer.files[0];
+          if (file) loadMedia(cell, file);
+        });
+
+        // remove button
+        removeBtn.addEventListener('click', e => {
+          e.stopPropagation();
+          clearCell(cell);
+        });
+      });
+
+      function loadMedia(cell, file) {
+        const url = URL.createObjectURL(file);
+        const isVideo = file.type.startsWith('video/');
+        clearCell(cell);
+        if (isVideo) {
+          const vid = cell.querySelector('.mc-video');
+          vid.src = url;
+          vid.load();
+          cell.classList.add('has-media', 'is-video');
+        } else {
+          const img = cell.querySelector('.mc-img');
+          img.src = url;
+          cell.classList.add('has-media', 'is-image');
+          // persist image to localStorage
+          try {
+            const reader = new FileReader();
+            reader.onload = ev => {
+              try { localStorage.setItem('generals-mc-' + cell.id, ev.target.result); } catch(e) {}
+            };
+            reader.readAsDataURL(file);
+          } catch(e) {}
+        }
+      }
+
+      function clearCell(cell) {
+        // If cell has a default src, restore it instead of blanking
+        const defaultSrc  = cell.dataset.defaultSrc;
+        const defaultType = cell.dataset.defaultType;
+        if (defaultSrc) {
+          cell.classList.remove('has-media', 'is-image', 'is-video');
+          if (defaultType === 'video') {
+            const vid = cell.querySelector('.mc-video');
+            vid.src = defaultSrc;
+            vid.load();
+            cell.classList.add('has-media', 'is-video');
+          } else {
+            const img = cell.querySelector('.mc-img');
+            img.src = defaultSrc;
+            cell.classList.add('has-media', 'is-image');
+          }
+          try { localStorage.removeItem('generals-mc-' + cell.id); } catch(e) {}
+          return;
+        }
+        cell.classList.remove('has-media', 'is-image', 'is-video');
+        const img = cell.querySelector('.mc-img');
+        const vid = cell.querySelector('.mc-video');
+        img.src = '';
+        vid.src = '';
+        vid.pause();
+        try { localStorage.removeItem('generals-mc-' + cell.id); } catch(e) {}
+      }
+
+      // restore persisted images on load
+      grid.querySelectorAll('.mc').forEach(cell => {
+        try {
+          const saved = localStorage.getItem('generals-mc-' + cell.id);
+          if (saved) {
+            const img = cell.querySelector('.mc-img');
+            img.src = saved;
+            cell.classList.add('has-media', 'is-image');
+          }
+        } catch(e) {}
+      });
+    })();
+
+    // ── Hero video sound toggle ──────────────────────
+    (function() {
+      const vid = document.getElementById('heroVideo');
+      const btn = document.getElementById('soundToggle');
+      if (vid && btn) {
+        btn.addEventListener('click', () => {
+          vid.muted = !vid.muted;
+          if (!vid.muted) {
+            vid.play();
+            btn.classList.add('muted-off');
+          } else {
+            btn.classList.remove('muted-off');
+            btn.textContent = '♪ Tap for sound';
+          }
+        });
+      }
+    })();
+
+    // ── Team showcase hover linking ──────────────────
+    (function() {
+      const showcase = document.getElementById('teamShowcase');
+      if (!showcase) return;
+      const photos = showcase.querySelectorAll('.show-photo');
+      const rows = showcase.querySelectorAll('.member-row');
+      const all = [...photos, ...rows];
+      const canHover = window.matchMedia('(hover: hover)').matches;
+      let locked = null; // member locked by tap on touch devices
+
+      function setActive(id) {
+        all.forEach(el => {
+          const m = el.getAttribute('data-member');
+          el.classList.remove('is-active', 'is-dimmed');
+          if (id === null) return;
+          if (m === id) el.classList.add('is-active');
+          else el.classList.add('is-dimmed');
+        });
+      }
+      all.forEach(el => {
+        const id = el.getAttribute('data-member');
+        el.addEventListener('mouseenter', () => { if (locked === null) setActive(id); });
+        el.addEventListener('mouseleave', () => { if (locked === null) setActive(null); });
+        el.addEventListener('click', () => {
+          if (canHover) return;
+          if (locked === id) { locked = null; setActive(null); }
+          else { locked = id; setActive(id); }
+        });
+      });
+      document.addEventListener('click', (e) => {
+        if (canHover || locked === null) return;
+        if (!showcase.contains(e.target)) { locked = null; setActive(null); }
+      });
+    })();
+
+    // ── Meteors: site-wide branded shower ────────────
+    (function() {
+      const layer = document.getElementById('meteorLayer');
+      if (!layer) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const COUNT = 18;
+      for (let i = 0; i < COUNT; i++) {
+        const m = document.createElement('span');
+        m.className = 'meteor';
+        m.style.left = Math.random() * 100 + '%';
+        m.style.top = (Math.random() * 60 - 20) + '%';
+        const dur = 3 + Math.random() * 5;      // 3–8s
+        const delay = Math.random() * 8;         // staggered
+        m.style.animationDuration = dur + 's';
+        m.style.animationDelay = delay + 's';
+        layer.appendChild(m);
+      }
+    })();
+
+    // ── Theme toggle: light / system / dark ──────────
+    (function() {
+      const toggle = document.getElementById('themeToggle');
+      if (!toggle) return;
+      const opts = toggle.querySelectorAll('.tt-opt');
+      const mq = window.matchMedia('(prefers-color-scheme: dark)');
+
+      function getMode() {
+        try { return localStorage.getItem('generals-theme') || 'dark'; }
+        catch (e) { return 'dark'; }
+      }
+      function apply(mode) {
+        const resolved = mode === 'system' ? (mq.matches ? 'dark' : 'light') : mode;
+        document.documentElement.setAttribute('data-theme', resolved);
+        toggle.setAttribute('data-mode', mode);
+        opts.forEach(o => o.classList.toggle('active', o.dataset.mode === mode));
+      }
+      function setMode(mode) {
+        try { localStorage.setItem('generals-theme', mode); } catch (e) {}
+        apply(mode);
+      }
+      opts.forEach(o => o.addEventListener('click', () => setMode(o.dataset.mode)));
+      // react to OS changes while in system mode
+      mq.addEventListener('change', () => { if (getMode() === 'system') apply('system'); });
+
+      apply(getMode());
+    })();
+
+    // ── Circular Testimonials ────────────────────────
+    (function() {
+      const DATA = [
+        { quote: "Nag-join ako sa The Generals at in just 6 months, nagawa kong mag-quit sa day job ko. Hindi ako makapaniwala — ang system talaga works, basta i-work mo lang.", name: "Merlinda Rodriguez", designation: "Top Leader", src: "assets/team/merlinda_rodriguez.png" },
+        { quote: "Yung duplication system namin — doon talaga nag-iiba ang lahat. Kapag natutunan mo na, madali na siyang ituro. Ang team ko lumago from 3 to 40 in just four months.", name: "Jay Faderogaya", designation: "Top Leader", src: "assets/team/jay_faderogaya.png" },
+        { quote: "World-class talaga ang mentorship ni Coach Ryan. May step-by-step guidance, may accountability, at yung community — gusto talaga nilang mag-succeed ka. Hindi ka iiwan.", name: "Juanito Tabuzo", designation: "Top Leader", src: "assets/team/juanito_tabuzo.png" },
+        { quote: "Nag-alinlangan ako noong una, pero yung training materials at support system dito — wala akong nakitang ganito kahusay. Noong week 3 pa lang, dumating na yung first check ko.", name: "Leonard Caguicla", designation: "Top Leader", src: "assets/team/leonard_caguicla.png" },
+        { quote: "Hindi lang income ang ibinigay sa akin ng The Generals — ibinigay nila sa akin ang purpose. Seeing my team grow, watching lives change — ito yung movement na pinaglalaban namin.", name: "Ryan Jay Bullas", designation: "AiCons - The Generals Founder & Coach", src: "assets/team/ryan_jay_bullas.png" },
+      ];
+
+      const n = DATA.length;
+      let active = 0;
+
+      const container = document.getElementById('ctImages');
+      const portraits = Array.from(document.querySelectorAll('.ct-portrait'));
+      const wrap    = document.getElementById('ctQuoteWrap');
+      const quoteEl = document.getElementById('ctQuote');
+      const nameEl  = document.getElementById('ctName');
+      const desigEl = document.getElementById('ctDesig');
+      const prevBtn = document.getElementById('ctPrev');
+      const nextBtn = document.getElementById('ctNext');
+      if (!container || !quoteEl || !portraits.length) return;
+
+      // Match the original calculateGap function exactly
+      function calculateGap(width) {
+        const minWidth = 1024, maxWidth = 1456, minGap = 60, maxGap = 86;
+        if (width <= minWidth) return minGap;
+        if (width >= maxWidth) return Math.max(minGap, maxGap + 0.06018 * (width - maxWidth));
+        return minGap + (maxGap - minGap) * ((width - minWidth) / (maxWidth - minWidth));
+      }
+
+      function applyPortraits() {
+        const gap = calculateGap(container.offsetWidth);
+        const maxStickUp = gap * 0.8;
+        portraits.forEach((img, i) => {
+          const isActive = i === active;
+          const isLeft  = (active - 1 + n) % n === i;
+          const isRight = (active + 1) % n === i;
+          if (isActive) {
+            Object.assign(img.style, { transform:'translateX(0) translateY(0) scale(1) rotateY(0deg)', zIndex:3, opacity:1, pointerEvents:'auto', borderColor:'rgba(197,148,26,0.45)', boxShadow:'0 10px 30px rgba(0,0,0,0.4)' });
+          } else if (isLeft) {
+            Object.assign(img.style, { transform:`translateX(-${gap}px) translateY(-${maxStickUp}px) scale(0.85) rotateY(15deg)`, zIndex:2, opacity:0.75, pointerEvents:'auto', borderColor:'transparent', boxShadow:'0 10px 30px rgba(0,0,0,0.2)' });
+          } else if (isRight) {
+            Object.assign(img.style, { transform:`translateX(${gap}px) translateY(-${maxStickUp}px) scale(0.85) rotateY(-15deg)`, zIndex:2, opacity:0.75, pointerEvents:'auto', borderColor:'transparent', boxShadow:'0 10px 30px rgba(0,0,0,0.2)' });
+          } else {
+            Object.assign(img.style, { transform:'translateX(0) scale(0.7)', zIndex:1, opacity:0, pointerEvents:'none' });
+          }
+        });
+      }
+
+      function animateWords(text) {
+        quoteEl.innerHTML = '';
+        text.split(' ').forEach((word, i) => {
+          const w = document.createElement('span');
+          w.className = 'ct-word';
+          const s = document.createElement('span');
+          s.textContent = word + '\u00a0';
+          s.style.animationDelay = (i * 0.025) + 's';
+          w.appendChild(s);
+          quoteEl.appendChild(w);
+        });
+      }
+
+      function go(newIdx) {
+        active = (newIdx + n) % n;
+        applyPortraits();
+        // AnimatePresence-style: exit → enter
+        wrap.classList.add('ct-exiting');
+        setTimeout(() => {
+          wrap.classList.remove('ct-exiting');
+          wrap.classList.add('ct-entering');
+          animateWords(DATA[active].quote);
+          nameEl.textContent  = DATA[active].name;
+          desigEl.textContent = DATA[active].designation;
+          requestAnimationFrame(() => requestAnimationFrame(() => {
+            wrap.classList.remove('ct-entering');
+          }));
+        }, 280);
+      }
+
+      prevBtn.addEventListener('click', () => { go(active - 1); resetTimer(); });
+      nextBtn.addEventListener('click', () => { go(active + 1); resetTimer(); });
+
+      window.addEventListener('keydown', e => {
+        if (e.key === 'ArrowLeft')  { go(active - 1); resetTimer(); }
+        if (e.key === 'ArrowRight') { go(active + 1); resetTimer(); }
+      });
+
+      // Responsive resize
+      window.addEventListener('resize', applyPortraits);
+
+      let timer = setInterval(() => go(active + 1), 5000);
+      function resetTimer() { clearInterval(timer); timer = setInterval(() => go(active + 1), 5000); }
+
+      // Init (no transition on first paint)
+      portraits.forEach(img => img.style.transition = 'none');
+      applyPortraits();
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        portraits.forEach(img => img.style.transition = '');
+      }));
+      animateWords(DATA[0].quote);
+      nameEl.textContent  = DATA[0].name;
+      desigEl.textContent = DATA[0].designation;
+    })();
+
+    // ── Nav dropdowns ────────────────────────────────
+    (function() {
+      const parents = document.querySelectorAll('.nav-links li .nav-parent-btn');
+      parents.forEach(btn => {
+        const li = btn.closest('li');
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isOpen = li.classList.contains('open');
+          document.querySelectorAll('.nav-links li.open').forEach(el => {
+            el.classList.remove('open');
+            el.querySelector('.nav-parent-btn')?.setAttribute('aria-expanded', 'false');
+          });
+          if (!isOpen) { li.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
+        });
+      });
+      document.addEventListener('click', () => {
+        document.querySelectorAll('.nav-links li.open').forEach(el => {
+          el.classList.remove('open');
+          el.querySelector('.nav-parent-btn')?.setAttribute('aria-expanded', 'false');
+        });
+      });
+      document.querySelectorAll('.nav-dropdown a').forEach(a => {
+        a.addEventListener('click', () => {
+          document.querySelectorAll('.nav-links li.open').forEach(el => el.classList.remove('open'));
+        });
+      });
+    })();
+
+    // ── Learning tabs ─────────────────────────────────
+    (function() {
+      const tabs = document.querySelectorAll('.ltab');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          document.querySelectorAll('.learning-panel').forEach(p => p.classList.add('hidden'));
+          const panel = document.getElementById('tab-' + tab.dataset.tab);
+          if (panel) panel.classList.remove('hidden');
+        });
+      });
+    })();
+
+    // ── Smooth scroll for nav links ──────────────────
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+
+  <!-- ══ Generative Mountain Scene (Three.js, brand gold) ══════ -->
+  <script>
+    (function initMountainScene() {
+      if (typeof THREE === 'undefined') return;
+      const mount = document.getElementById('mountainScene');
+      if (!mount) return;
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(
+        75, mount.clientWidth / mount.clientHeight, 0.1, 100
+      );
+      camera.position.set(0, 1.5, 3);
+      camera.rotation.x = -0.3;
+
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setSize(mount.clientWidth, mount.clientHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      mount.appendChild(renderer.domElement);
+
+      const geometry = new THREE.PlaneGeometry(12, 8, 128, 128);
+
+      const material = new THREE.ShaderMaterial({
+        side: THREE.DoubleSide,
+        wireframe: false,
+        transparent: true,
+        uniforms: {
+          time: { value: 0 },
+          pointLightPosition: { value: new THREE.Vector3(0, 0, 5) },
+          // Brand gold instead of sky blue
+          color: { value: new THREE.Color('#C9961A') },
+        },
+        vertexShader: `
+          uniform float time;
+          varying vec3 vNormal;
+          varying vec3 vPosition;
+          vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+          vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+          vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }
+          vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
+          float snoise(vec3 v) {
+              const vec2 C = vec2(1.0/6.0, 1.0/3.0);
+              const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+              vec3 i = floor(v + dot(v, C.yyy));
+              vec3 x0 = v - i + dot(i, C.xxx);
+              vec3 g = step(x0.yzx, x0.xyz);
+              vec3 l = 1.0 - g;
+              vec3 i1 = min(g.xyz, l.zxy);
+              vec3 i2 = max(g.xyz, l.zxy);
+              vec3 x1 = x0 - i1 + C.xxx;
+              vec3 x2 = x0 - i2 + C.yyy;
+              vec3 x3 = x0 - D.yyy;
+              i = mod289(i);
+              vec4 p = permute(permute(permute(
+                        i.z + vec4(0.0, i1.z, i2.z, 1.0))
+                      + i.y + vec4(0.0, i1.y, i2.y, 1.0))
+                      + i.x + vec4(0.0, i1.x, i2.x, 1.0));
+              float n_ = 0.142857142857;
+              vec3 ns = n_ * D.wyz - D.xzx;
+              vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+              vec4 x_ = floor(j * ns.z);
+              vec4 y_ = floor(j - 7.0 * x_);
+              vec4 x = x_ * ns.x + ns.yyyy;
+              vec4 y = y_ * ns.x + ns.yyyy;
+              vec4 h = 1.0 - abs(x) - abs(y);
+              vec4 b0 = vec4(x.xy, y.xy);
+              vec4 b1 = vec4(x.zw, y.zw);
+              vec4 s0 = floor(b0) * 2.0 + 1.0;
+              vec4 s1 = floor(b1) * 2.0 + 1.0;
+              vec4 sh = -step(h, vec4(0.0));
+              vec4 a0 = b0.xzyw + s0.xzyw * sh.xxyy;
+              vec4 a1 = b1.xzyw + s1.xzyw * sh.zzww;
+              vec3 p0 = vec3(a0.xy, h.x);
+              vec3 p1 = vec3(a0.zw, h.y);
+              vec3 p2 = vec3(a1.xy, h.z);
+              vec3 p3 = vec3(a1.zw, h.w);
+              vec4 norm = taylorInvSqrt(vec4(dot(p0, p0), dot(p1, p1), dot(p2, p2), dot(p3, p3)));
+              p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
+              vec4 m = max(0.6 - vec4(dot(x0, x0), dot(x1, x1), dot(x2, x2), dot(x3, x3)), 0.0);
+              m = m * m;
+              return 42.0 * dot(m * m, vec4(dot(p0, x0), dot(p1, x1), dot(p2, x2), dot(p3, x3)));
+          }
+          void main() {
+              vNormal = normal;
+              vPosition = position;
+              float noiseFreq = 0.8;
+              float noiseAmp = 0.6;
+              float displacement = snoise(vec3(position.x * noiseFreq, position.y * noiseFreq - time * 0.2, 0.0)) * noiseAmp;
+              displacement += snoise(vec3(position.x * noiseFreq * 2.0, position.y * noiseFreq * 2.0 - time * 0.2, 0.0)) * (noiseAmp * 0.5);
+              vec3 newPosition = position + normal * displacement;
+              gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
+          }
+        `,
+        fragmentShader: `
+          uniform vec3 color;
+          uniform vec3 pointLightPosition;
+          varying vec3 vNormal;
+          varying vec3 vPosition;
+          void main() {
+              vec3 normal = normalize(vNormal);
+              vec3 lightDir = normalize(pointLightPosition - vPosition);
+              float diffuse = max(dot(normal, lightDir), 0.0);
+              float fresnel = 1.0 - dot(normal, vec3(0.0, 0.0, 1.0));
+              fresnel = pow(fresnel, 2.0);
+              // warm highlight toward bright gold on the ridges
+              vec3 highlight = vec3(0.96, 0.78, 0.26);
+              vec3 finalColor = color * diffuse + highlight * fresnel * 0.6;
+              gl_FragColor = vec4(finalColor, 1.0);
+          }
+        `,
+      });
+
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.rotation.x = -Math.PI / 2;
+      scene.add(mesh);
+
+      const pointLight = new THREE.PointLight(0xffffff, 1, 100);
+      pointLight.position.set(0, 0, 5);
+      scene.add(pointLight);
+
+      let frameId;
+      function animate(t) {
+        material.uniforms.time.value = t * 0.0003;
+        renderer.render(scene, camera);
+        frameId = requestAnimationFrame(animate);
+      }
+      animate(0);
+
+      function handleResize() {
+        if (!mount.clientWidth) return;
+        camera.aspect = mount.clientWidth / mount.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(mount.clientWidth, mount.clientHeight);
+      }
+      function handleMouseMove(e) {
+        const y = -(e.clientY / window.innerHeight) * 2 + 1;
+        const x = (e.clientX / window.innerWidth) * 2 - 1;
+        const pos = new THREE.Vector3(x * 5, 2, 2 - y * 2);
+        pointLight.position.copy(pos);
+        material.uniforms.pointLightPosition.value = pos;
+      }
+      window.addEventListener('resize', handleResize);
+      window.addEventListener('mousemove', handleMouseMove);
+    })();
+  </script>
+
+</body>
+</html>

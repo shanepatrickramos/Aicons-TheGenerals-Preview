@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="Generals Team Website" description="Full team hub website — hero video, leadership grid, events, training hub, and join CTA." -->
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="./ds-base.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: #080808; color: #fff; font-family: 'Montserrat', sans-serif; min-height: 100vh; overflow-x: hidden; scroll-behavior: smooth; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(197,148,26,0.018) 80px, rgba(197,148,26,0.019) 81px), repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(197,148,26,0.018) 80px, rgba(197,148,26,0.019) 81px); pointer-events: none; z-index: 0; }
+    @keyframes hero-rise { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fade-up { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</helmet>
+
+<!-- ══ NAV ══════════════════════════════════════════════════════════════ -->
+<nav style="position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:64px;background:rgba(8,8,8,0.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid rgba(197,148,26,0.18);">
+  <img src="../../assets/logo-dark.jpg" alt="The Generals AICONS" style="height:36px;width:auto;object-fit:contain;" />
+  <div style="display:flex;align-items:center;gap:32px;">
+    <a href="#team"     style="font-size:10px;font-weight:700;letter-spacing:0.25em;text-transform:uppercase;color:#7A7060;text-decoration:none;">Team</a>
+    <a href="#events"   style="font-size:10px;font-weight:700;letter-spacing:0.25em;text-transform:uppercase;color:#7A7060;text-decoration:none;">Events</a>
+    <a href="#training" style="font-size:10px;font-weight:700;letter-spacing:0.25em;text-transform:uppercase;color:#7A7060;text-decoration:none;">Training</a>
+    <a href="#join"     style="font-size:10px;font-weight:700;letter-spacing:0.25em;text-transform:uppercase;color:#7A7060;text-decoration:none;">Join</a>
+  </div>
+  <x-import component-from-global-scope="GeneralsAICONSDesignSystem_57bd92.Button" variant="primary" size="sm" hint-size="130px,36px">Join Now</x-import>
+</nav>
+
+<!-- ══ HERO ══════════════════════════════════════════════════════════════ -->
+<section style="min-height:100vh;padding:120px 40px 80px;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;position:relative;">
+  <!-- Left: copy -->
+  <div style="animation:hero-rise 0.9s cubic-bezier(0.22,1,0.36,1) both;">
+    <div style="font-size:9px;font-weight:700;letter-spacing:0.45em;text-transform:uppercase;color:#C9961A;margin-bottom:20px;">The Generals AICONS</div>
+    <h1 style="font-size:clamp(36px,5vw,60px);font-weight:900;text-transform:uppercase;letter-spacing:0.03em;line-height:1;margin-bottom:24px;background:linear-gradient(110deg,#C9961A 0%,#C9961A 35%,#FFF6DA 48%,#FFF 50%,#FFF6DA 52%,#F5C842 65%,#C9961A 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">{{ heroTitle }}</h1>
+    <p style="font-size:14px;font-weight:500;line-height:1.75;color:#9A8E7A;margin-bottom:36px;max-width:440px;">{{ heroDesc }}</p>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
+      <x-import component-from-global-scope="GeneralsAICONSDesignSystem_57bd92.Button" variant="primary" size="md" hint-size="190px,52px">Join the Generals</x-import>
+      <x-import component-from-global-scope="GeneralsAICONSDesignSystem_57bd92.Button" variant="ghost"   size="md" hint-size="190px,52px">Meet Our Leaders</x-import>
+    </div>
+    <div style="margin-top:44px;font-size:11px;font-weight:700;letter-spacing:0.5em;text-transform:uppercase;color:#4A4035;">Lead · Conquer · Dominate</div>
+  </div>
+
+  <!-- Right: video -->
+  <div style="position:relative;animation:hero-rise 1.1s 0.15s cubic-bezier(0.22,1,0.36,1) both;">
+    <div style="position:absolute;top:-10px;left:-10px;width:22px;height:22px;border-top:2px solid #F5C842;border-left:2px solid #F5C842;z-index:2;pointer-events:none;"></div>
+    <div style="position:absolute;bottom:-10px;right:-10px;width:22px;height:22px;border-bottom:2px solid #F5C842;border-right:2px solid #F5C842;z-index:2;pointer-events:none;"></div>
+    <video autoplay muted loop playsinline style="width:100%;aspect-ratio:16/9;object-fit:cover;display:block;border:1px solid rgba(197,148,26,0.28);box-shadow:0 24px 60px rgba(0,0,0,0.65),0 0 48px rgba(197,148,26,0.12);">
+      <source src="../../assets/generals-hero.mp4" type="video/mp4" />
+    </video>
+  </div>
+</section>
+
+<!-- ══ SEPARATOR ══════════════════════════════════════════════════════════ -->
+<div style="max-width:1200px;margin:0 auto;padding:0 40px;">
+  <div style="height:1px;background:linear-gradient(90deg,transparent,#C9961A 30%,#F5C842 50%,#C9961A 70%,transparent);"></div>
+</div>
+
+<!-- ══ LEADERSHIP ══════════════════════════════════════════════════════════ -->
+<section id="team" style="padding:90px 40px;max-width:1200px;margin:0 auto;">
+  <div style="text-align:center;margin-bottom:52px;">
+    <div style="font-size:9px;font-weight:700;letter-spacing:0.45em;text-transform:uppercase;color:#C9961A;margin-bottom:14px;">Our Leaders</div>
+    <h2 style="font-size:38px;font-weight:900;text-transform:uppercase;letter-spacing:0.03em;background:linear-gradient(180deg,#FFF 0%,#B8A070 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">The Leadership Team</h2>
+  </div>
+
+  <!-- Commander featured -->
+  <div style="display:flex;justify-content:center;margin-bottom:40px;">
+    <div style="position:relative;width:300px;background:#0E0E0E;border:1px solid rgba(197,148,26,0.3);text-align:center;">
+      <div style="position:absolute;top:0;left:0;width:18px;height:18px;border-top:2px solid #C9961A;border-left:2px solid #C9961A;"></div>
+      <div style="position:absolute;top:0;right:0;width:18px;height:18px;border-top:2px solid #C9961A;border-right:2px solid #C9961A;"></div>
+      <div style="position:absolute;bottom:0;left:0;width:18px;height:18px;border-bottom:2px solid #C9961A;border-left:2px solid #C9961A;"></div>
+      <div style="position:absolute;bottom:0;right:0;width:18px;height:18px;border-bottom:2px solid #C9961A;border-right:2px solid #C9961A;"></div>
+      <div style="position:relative;height:320px;overflow:hidden;">
+        <img src="../../assets/team/ryan_jay_bullas.png" alt="Ryan Jay Bullas" style="width:100%;height:100%;object-fit:cover;object-position:center top;" />
+        <div style="position:absolute;bottom:0;left:0;right:0;height:120px;background:linear-gradient(to top,#0E0E0E,transparent);"></div>
+      </div>
+      <div style="padding:16px 20px 24px;">
+        <div style="display:inline-block;background:#9B1A0A;color:#F5C842;font-size:8px;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;padding:3px 10px;margin-bottom:10px;">★ Commander</div>
+        <div style="font-size:18px;font-weight:900;text-transform:uppercase;letter-spacing:0.06em;background:linear-gradient(180deg,#FDEEA0,#C9961A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1;margin-bottom:4px;">Ryan Jay Bullas</div>
+        <div style="font-size:10px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:#7A7060;">Team Leader</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Team grid -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;">
+    <sc-for list="{{ teamMembers }}" as="member" hint-placeholder-count="4">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;">
+        <div style="position:relative;width:100%;aspect-ratio:3/4;overflow:hidden;border:1px solid rgba(197,148,26,0.28);">
+          <img src="{{ member.photo }}" alt="{{ member.name }}" style="width:100%;height:100%;object-fit:cover;object-position:center 15%;" />
+          <div style="position:absolute;top:5px;left:5px;width:11px;height:11px;border-top:1.5px solid #F5C842;border-left:1.5px solid #F5C842;"></div>
+          <div style="position:absolute;bottom:5px;right:5px;width:11px;height:11px;border-bottom:1.5px solid #F5C842;border-right:1.5px solid #F5C842;"></div>
+        </div>
+        <div style="font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.06em;background:linear-gradient(180deg,#FDEEA0,#C9961A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2;">{{ member.name }}</div>
+        <x-import component-from-global-scope="GeneralsAICONSDesignSystem_57bd92.Badge" variant="{{ member.badgeVariant }}" hint-size="110px,22px">★ {{ member.rank }}</x-import>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<!-- ══ SEPARATOR ══════════════════════════════════════════════════════════ -->
+<div style="max-width:1200px;margin:0 auto;padding:0 40px;">
+  <div style="height:1px;background:linear-gradient(90deg,transparent,#C9961A 30%,#F5C842 50%,#C9961A 70%,transparent);"></div>
+</div>
+
+<!-- ══ EVENTS ══════════════════════════════════════════════════════════════ -->
+<section id="events" style="padding:90px 40px;background:#0B0B0B;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:52px;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:0.45em;text-transform:uppercase;color:#C9961A;margin-bottom:14px;">What's Happening</div>
+      <h2 style="font-size:38px;font-weight:900;text-transform:uppercase;letter-spacing:0.03em;background:linear-gradient(180deg,#FFF 0%,#B8A070 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Upcoming Events</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+      <sc-for list="{{ events }}" as="event" hint-placeholder-count="3">
+        <div style="background:#0E0E0E;border:1px solid rgba(197,148,26,0.18);padding:28px 24px;">
+          <div style="font-size:8px;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:#9B1A0A;margin-bottom:10px;">{{ event.date }}</div>
+          <div style="font-size:16px;font-weight:800;text-transform:uppercase;letter-spacing:0.05em;color:#FFF;margin-bottom:8px;line-height:1.25;">{{ event.title }}</div>
+          <div style="font-size:11px;font-weight:500;color:#7A7060;line-height:1.65;margin-bottom:18px;">{{ event.desc }}</div>
+          <div style="font-size:8px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:#C9961A;">★ {{ event.location }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TRAINING HUB ════════════════════════════════════════════════════════ -->
+<section id="training" style="padding:90px 40px;max-width:1200px;margin:0 auto;">
+  <div style="text-align:center;margin-bottom:52px;">
+    <div style="font-size:9px;font-weight:700;letter-spacing:0.45em;text-transform:uppercase;color:#C9961A;margin-bottom:14px;">Grow Your Skills</div>
+    <h2 style="font-size:38px;font-weight:900;text-transform:uppercase;letter-spacing:0.03em;background:linear-gradient(180deg,#FFF 0%,#B8A070 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Training Hub</h2>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;">
+    <sc-for list="{{ resources }}" as="res" hint-placeholder-count="4">
+      <div style="background:#0E0E0E;border:1px solid rgba(197,148,26,0.18);padding:24px;display:flex;gap:18px;align-items:flex-start;">
+        <div style="width:42px;height:42px;background:rgba(197,148,26,0.08);border:1px solid rgba(197,148,26,0.28);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;color:#C9961A;">{{ res.icon }}</div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:0.07em;color:#FFF;margin-bottom:6px;line-height:1.2;">{{ res.title }}</div>
+          <div style="font-size:11px;font-weight:500;color:#7A7060;line-height:1.6;margin-bottom:14px;">{{ res.desc }}</div>
+          <x-import component-from-global-scope="GeneralsAICONSDesignSystem_57bd92.Button" variant="ghost" size="sm" hint-size="110px,32px">Access</x-import>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<!-- ══ JOIN CTA ════════════════════════════════════════════════════════════ -->
+<section id="join" style="padding:110px 40px;text-align:center;position:relative;overflow:hidden;border-top:1px solid rgba(197,148,26,0.12);">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 55% 45% at 50% 50%,rgba(197,148,26,0.055) 0%,transparent 70%);pointer-events:none;"></div>
+  <div style="max-width:600px;margin:0 auto;position:relative;z-index:1;">
+    <div style="font-size:9px;font-weight:700;letter-spacing:0.45em;text-transform:uppercase;color:#C9961A;margin-bottom:20px;">Ready to Rise</div>
+    <h2 style="font-size:clamp(30px,4vw,52px);font-weight:900;text-transform:uppercase;letter-spacing:0.03em;line-height:1.1;margin-bottom:20px;background:linear-gradient(110deg,#C9961A 0%,#C9961A 35%,#FFF6DA 48%,#FFF 50%,#FFF6DA 52%,#F5C842 65%,#C9961A 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">{{ ctaTitle }}</h2>
+    <p style="font-size:14px;font-weight:500;color:#9A8E7A;line-height:1.75;margin-bottom:40px;">{{ ctaDesc }}</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <x-import component-from-global-scope="GeneralsAICONSDesignSystem_57bd92.Button" variant="primary" size="lg" hint-size="220px,60px">Join the Generals</x-import>
+      <x-import component-from-global-scope="GeneralsAICONSDesignSystem_57bd92.Button" variant="ghost"   size="lg" hint-size="200px,60px">Learn More</x-import>
+    </div>
+    <div style="margin-top:44px;font-size:11px;font-weight:700;letter-spacing:0.5em;text-transform:uppercase;color:#4A4035;">Lead · Conquer · Dominate</div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══════════════════════════════════════════════════════════════ -->
+<footer style="border-top:1px solid rgba(197,148,26,0.18);padding:36px 40px;display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;">
+  <img src="../../assets/logo-dark.jpg" alt="The Generals AICONS" style="height:38px;width:auto;object-fit:contain;" />
+  <div style="font-size:11px;font-weight:700;letter-spacing:0.5em;text-transform:uppercase;color:#4A4035;">Lead · Conquer · Dominate</div>
+  <div style="font-size:9px;color:#4A4035;font-weight:500;letter-spacing:0.08em;">© 2025 The Generals AICONS</div>
+</footer>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: 1440, &quot;height&quot;: 900 },
+  &quot;heroTitle&quot;:    { &quot;editor&quot;: &quot;text&quot;,  &quot;default&quot;: &quot;Join the Generals&quot;,          &quot;tsType&quot;: &quot;string&quot; },
+  &quot;heroDesc&quot;:     { &quot;editor&quot;: &quot;text&quot;,  &quot;default&quot;: &quot;A movement of leaders.&quot;,     &quot;tsType&quot;: &quot;string&quot; },
+  &quot;ctaTitle&quot;:     { &quot;editor&quot;: &quot;text&quot;,  &quot;default&quot;: &quot;Be Part of Something Bigger&quot;,&quot;tsType&quot;: &quot;string&quot; },
+  &quot;ctaDesc&quot;:      { &quot;editor&quot;: &quot;text&quot;,  &quot;default&quot;: &quot;Join a proven system.&quot;,      &quot;tsType&quot;: &quot;string&quot; },
+  &quot;teamMembers&quot;:  { &quot;editor&quot;: null,    &quot;default&quot;: [],  &quot;tsType&quot;: &quot;Array&lt;{name:string;rank:string;badgeVariant:string;photo:string}&gt;&quot; },
+  &quot;events&quot;:       { &quot;editor&quot;: null,    &quot;default&quot;: [],  &quot;tsType&quot;: &quot;Array&lt;{date:string;title:string;desc:string;location:string}&gt;&quot;    },
+  &quot;resources&quot;:    { &quot;editor&quot;: null,    &quot;default&quot;: [],  &quot;tsType&quot;: &quot;Array&lt;{icon:string;title:string;desc:string}&gt;&quot;                    }
+}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      heroTitle: this.props.heroTitle ?? 'Join the Generals',
+      heroDesc:  this.props.heroDesc  ?? 'A movement of leaders, builders, and champions rising together. Whether you\'re starting out or ready to dominate — this is your team.',
+      ctaTitle:  this.props.ctaTitle  ?? 'Be Part of Something Bigger',
+      ctaDesc:   this.props.ctaDesc   ?? 'Join a proven, duplicatable system and a network of generals committed to your success.',
+
+      teamMembers: this.props.teamMembers ?? [
+        { name: 'Merlinda Rodriguez', rank: 'Diamond Rank', badgeVariant: 'gold',  photo: '../../assets/team/merlinda_rodriguez.png' },
+        { name: 'Juanito Tabuzo',     rank: 'Gold Rank',    badgeVariant: 'gold',  photo: '../../assets/team/juanito_tabuzo.png'     },
+        { name: 'Leonard Caguicla',   rank: 'Silver Rank',  badgeVariant: 'ghost', photo: '../../assets/team/leonard_caguicla.png'   },
+        { name: 'Jay Faderogaya',     rank: 'Gold Rank',    badgeVariant: 'gold',  photo: '../../assets/team/jay_faderogaya.png'     },
+      ],
+
+      events: this.props.events ?? [
+        { date: 'June 21, 2025',  title: 'Generals Summit 2025',          desc: 'Annual team gathering — recognition, training, and inspiration for all members.',            location: 'Manila, Philippines' },
+        { date: 'July 5, 2025',   title: 'Business Opportunity Night',    desc: 'Open evening for prospects. Bring guests and let the generals present the vision.',          location: 'Online via Zoom'     },
+        { date: 'July 19, 2025',  title: 'Diamond Rank Mastermind',       desc: 'Exclusive session for Diamond and above — strategic growth planning and mentoring.',         location: 'Cebu City'           },
+      ],
+
+      resources: this.props.resources ?? [
+        { icon: '★', title: 'Duplication System',  desc: 'Step-by-step guide to building your downline the Generals way.'                    },
+        { icon: '◆', title: 'Sales Mastery',        desc: 'Proven scripts, objection handling, and closing techniques for every situation.'    },
+        { icon: '▲', title: 'Leadership Training',  desc: 'Develop the mindset and skills to build, inspire, and retain your own team.'        },
+        { icon: '●', title: 'Product Knowledge',    desc: 'Deep dive into AICONS products — benefits, positioning, and customer success.'      },
+      ],
+    };
+  }
+}
+
+</script>
+</body>
+</html>

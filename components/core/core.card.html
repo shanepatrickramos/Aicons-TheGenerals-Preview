@@ -1,0 +1,74 @@
+<!-- @dsCard group="Components" viewport="700x320" name="Core Components" subtitle="Button · Badge · Card — all variants" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body { margin:0; background:#080808; padding:24px; font-family:'Montserrat',sans-serif; }
+  .section { margin-bottom:20px; }
+  .label { font-size:8px; font-weight:700; letter-spacing:0.25em; text-transform:uppercase; color:#4A4035; margin-bottom:10px; }
+  .row { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { Button, Badge, Card } = window.GeneralsAICONSDesignSystem_57bd92 || {};
+
+function Demo() {
+  if (!Button) return React.createElement('p', { style:{color:'#C9961A',fontFamily:'Montserrat',fontSize:12,padding:24} }, 'Bundle loading…');
+  return React.createElement('div', null,
+    // Buttons
+    React.createElement('div', { className:'section' },
+      React.createElement('div', { className:'label' }, 'Buttons'),
+      React.createElement('div', { className:'row' },
+        React.createElement(Button, { variant:'primary', size:'md' }, 'Join the Team'),
+        React.createElement(Button, { variant:'ghost',   size:'md' }, 'Meet Our Leaders'),
+        React.createElement(Button, { variant:'red',     size:'md' }, 'Register Now'),
+        React.createElement(Button, { variant:'primary', size:'sm' }, 'Small'),
+        React.createElement(Button, { variant:'ghost',   size:'sm', disabled:true }, 'Disabled'),
+      )
+    ),
+    // Badges
+    React.createElement('div', { className:'section' },
+      React.createElement('div', { className:'label' }, 'Badges'),
+      React.createElement('div', { className:'row' },
+        React.createElement(Badge, { variant:'red',   icon:'★' }, 'Commander'),
+        React.createElement(Badge, { variant:'gold',  icon:'★' }, 'Diamond Rank'),
+        React.createElement(Badge, { variant:'gold'           }, 'Gold Rank'),
+        React.createElement(Badge, { variant:'ghost'          }, 'Silver Rank'),
+        React.createElement(Badge, { variant:'dark'           }, 'Team Leader'),
+      )
+    ),
+    // Cards
+    React.createElement('div', { className:'section' },
+      React.createElement('div', { className:'label' }, 'Cards'),
+      React.createElement('div', { className:'row', style:{alignItems:'stretch'} },
+        React.createElement(Card, { accent:false, style:{width:180} },
+          React.createElement('div', { style:{color:'#C9961A',fontSize:10,fontWeight:700,letterSpacing:'0.2em',textTransform:'uppercase',marginBottom:6} }, 'Default'),
+          React.createElement('div', { style:{color:'#7A7060',fontSize:11} }, 'Sharp-cornered card with gold border.')
+        ),
+        React.createElement(Card, { accent:true, style:{width:180} },
+          React.createElement('div', { style:{color:'#F5C842',fontSize:10,fontWeight:700,letterSpacing:'0.2em',textTransform:'uppercase',marginBottom:6} }, 'With Accent'),
+          React.createElement('div', { style:{color:'#7A7060',fontSize:11} }, 'Top gold gradient bar.')
+        ),
+        React.createElement(Card, { featured:true, style:{width:180} },
+          React.createElement('div', { style:{color:'#F5C842',fontSize:10,fontWeight:700,letterSpacing:'0.2em',textTransform:'uppercase',marginBottom:6} }, 'Featured'),
+          React.createElement('div', { style:{color:'#7A7060',fontSize:11} }, 'Gold-tinted background.')
+        ),
+      )
+    )
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(React.createElement(Demo));
+</script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+/* ══ THE GENERALS AICONS — COLOR TOKENS ══════════════════════════════════ */
+
+:root {
+
+  /* ── Gold Scale ───────────────────────────────────────────────────────── */
+  --color-gold-50:   #FEFCE8;   /* near-white gold tint                     */
+  --color-gold-100:  #FDEEA0;   /* light gold — gradient highlight          */
+  --color-gold-200:  #F5C842;   /* bright gold — primary brand accent       */
+  --color-gold-300:  #E8B820;   /* vivid gold                               */
+  --color-gold-400:  #C9961A;   /* mid gold — body use, borders             */
+  --color-gold-500:  #A6790A;   /* deep gold — hover state                  */
+  --color-gold-600:  #8B6310;   /* dark gold — text on light bg             */
+  --color-gold-700:  #7A5606;   /* deeper gold                              */
+  --color-gold-800:  #6E5106;   /* darkest gold — active/pressed            */
+
+  /* ── Red Scale ───────────────────────────────────────────────────────── */
+  --color-red-brand: #9B1A0A;   /* brand red — AICONS accent, badges        */
+  --color-red-vivid: #C0281A;   /* vivid red — subheadings, highlights      */
+  --color-red-dark:  #7A1208;   /* deep red — hover on red elements         */
+
+  /* ── Neutral / Black Scale ───────────────────────────────────────────── */
+  --color-black:       #080808; /* true black — page background             */
+  --color-black-card:  #0E0E0E; /* card surface                             */
+  --color-black-lift:  #161616; /* lifted/hover surface                     */
+  --color-black-900:   #1C1C1C; /* slightly lighter dark                    */
+  --color-black-800:   #242424; /* dark surface variant                     */
+
+  /* ── White / Ivory Scale ─────────────────────────────────────────────── */
+  --color-white:       #FFFFFF; /* pure white — primary text (dark mode)    */
+  --color-ivory-50:    #F4EEE1; /* warm ivory — page bg (light mode)        */
+  --color-ivory-100:   #EAE2D0; /* lifted surface (light mode)              */
+  --color-ivory-200:   #D8CEB8; /* mid ivory                                */
+
+  /* ── Text Scale ──────────────────────────────────────────────────────── */
+  --color-text-muted:  #7A7060; /* secondary text (dark mode)               */
+  --color-text-dim:    #4A4035; /* tertiary / placeholder text (dark mode)  */
+
+  /* ── Border ──────────────────────────────────────────────────────────── */
+  --color-border:     rgba(197,148,26,0.18);  /* gold-tinted border (dark)  */
+  --color-border-md:  rgba(197,148,26,0.35);  /* medium emphasis border     */
+  --color-border-hi:  rgba(245,200,66,0.55);  /* high emphasis border       */
+
+  /* ── Gradients ───────────────────────────────────────────────────────── */
+  --gradient-gold-name:   linear-gradient(180deg, #FDEEA0 0%, #C9961A 100%); /* @kind other */
+  --gradient-gold-shine:  linear-gradient(110deg, #C9961A 0%, #F5C842 50%, #C9961A 100%); /* @kind other */
+  --gradient-gold-sweep:  linear-gradient(110deg, #C9961A 0%, #C9961A 35%, #FFF6DA 48%, #FFFFFF 50%, #FFF6DA 52%, #F5C842 65%, #C9961A 100%); /* @kind other */
+  --gradient-title:       linear-gradient(180deg, #FFF 0%, #B8A070 100%); /* @kind other */
+  --gradient-hero-title:  linear-gradient(180deg, #FDEEA0 0%, #C9961A 45%, #7A5606 100%); /* @kind other */
+
+  /* ── Semantic (dark-mode defaults) ───────────────────────────────────── */
+  --color-bg:         var(--color-black);
+  --color-bg-card:    var(--color-black-card);
+  --color-bg-lift:    var(--color-black-lift);
+  --color-text:       var(--color-white);
+  --color-text-sub:   var(--color-text-muted);
+  --color-accent:     var(--color-gold-200);
+  --color-accent-mid: var(--color-gold-400);
+  --color-accent-deep:var(--color-gold-600);
+  --color-cta:        var(--color-red-brand);
+}
+
+/* ── Light-mode overrides ───────────────────────────────────────────────── */
+html[data-theme="light"] {
+  --color-bg:         var(--color-ivory-50);
+  --color-bg-card:    var(--color-white);
+  --color-bg-lift:    var(--color-ivory-100);
+  --color-text:       #1C1710;
+  --color-text-sub:   #6A5C42;
+  --color-border:     rgba(150,108,8,0.28);
+  --color-border-md:  rgba(150,108,8,0.4);
+  --color-border-hi:  rgba(150,108,8,0.6);
+  --color-accent:     var(--color-gold-600);
+  --color-accent-mid: var(--color-gold-700);
+  --color-accent-deep:var(--color-gold-800);
+  --gradient-gold-name: linear-gradient(180deg, #A6790A 0%, #6E5106 100%); /* @kind other */
+}

@@ -1,0 +1,61 @@
+/* ══ THE GENERALS AICONS — TYPOGRAPHY TOKENS ════════════════════════════ */
+
+/* ── Google Fonts import ─────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Oswald:wght@400;500;600;700&display=swap');
+
+:root {
+  /* ── Font Families ────────────────────────────────────────────────────── */
+  --font-primary:   'Montserrat', 'Helvetica Neue', sans-serif;
+                    /* All body, UI, headings. Weights 400–900 used.       */
+  --font-display:   'Oswald', 'Impact', sans-serif;
+                    /* Condensed slab for ultra-large display headers.     */
+                    /* NOTE: actual PDF brand uses a custom condensed slab.*/
+                    /* Oswald is the closest Google Fonts match.           */
+  --font-mono:      'Courier New', monospace;
+                    /* Code only — not part of main brand.                 */
+
+  /* ── Type Scale (px base 16) ─────────────────────────────────────────── */
+  --text-2xs:   8px;    /* micro labels, badges                            */
+  --text-xs:    9px;    /* eyebrows, data labels                           */
+  --text-sm:    10px;   /* nav items, captions                             */
+  --text-base:  11px;   /* general UI text                                 */
+  --text-md:    13px;   /* body copy                                       */
+  --text-lg:    16px;   /* subheadings                                     */
+  --text-xl:    20px;   /* card titles                                     */
+  --text-2xl:   28px;   /* section subheadings                             */
+  --text-3xl:   40px;   /* section headings                                */
+  --text-4xl:   60px;   /* hero title min                                  */
+  --text-5xl:   76px;   /* hero title max                                  */
+
+  /* ── Fluid hero title (clamp) ────────────────────────────────────────── */
+  --text-hero:  clamp(38px, 5vw, 60px);
+
+  /* ── Font Weights ─────────────────────────────────────────────────────── */
+  --weight-normal:   400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+  --weight-extrabold:800;
+  --weight-black:    900;
+
+  /* ── Letter Spacing ──────────────────────────────────────────────────── */
+  --tracking-tight:   -0.02em;
+  --tracking-normal:   0;
+  --tracking-wide:     0.03em;
+  --tracking-wider:    0.1em;
+  --tracking-widest:   0.25em;
+  --tracking-ultra:    0.4em;   /* eyebrows / section labels               */
+  --tracking-caps:     0.5em;   /* taglines                                */
+
+  /* ── Line Heights ────────────────────────────────────────────────────── */
+  --leading-none:   1;
+  --leading-tight:  1.2;
+  --leading-snug:   1.35;
+  --leading-normal: 1.5;
+  --leading-relaxed:1.65;
+  --leading-loose:  1.75;
+
+  /* ── Text Transform ──────────────────────────────────────────────────── */
+  /* Brand convention: all UI labels, nav, eyebrows, buttons → UPPERCASE   */
+  /* Body copy and quotes → sentence case                                   */
+}

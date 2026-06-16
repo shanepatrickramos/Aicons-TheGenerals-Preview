@@ -1,0 +1,98 @@
+<!-- @dsCard group="Brand" viewport="700x280" name="Leadership Team" subtitle="The 5 core team leaders — portraits, names, ranks" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; background:#080808; padding:20px 24px; font-family:'Montserrat',sans-serif; }
+  .grid { display:flex; gap:12px; justify-content:center; }
+  .member { display:flex; flex-direction:column; align-items:center; gap:8px; width:112px; }
+  .portrait {
+    width:88px; height:88px; border-radius:0;
+    overflow:hidden; position:relative;
+    border:1px solid rgba(197,148,26,0.35);
+    box-shadow:0 4px 16px rgba(0,0,0,0.5);
+  }
+  .portrait img { width:100%; height:100%; object-fit:cover; object-position:center 15%; }
+  .portrait::after {
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(221deg,rgba(197,148,26,0) 32%,rgba(197,148,26,0.25) 47%,rgba(197,148,26,0) 65%);
+    mix-blend-mode:overlay; pointer-events:none;
+  }
+  .corner-tl, .corner-br { position:absolute; width:10px; height:10px; pointer-events:none; }
+  .corner-tl { top:4px; left:4px; border-top:1.5px solid #F5C842; border-left:1.5px solid #F5C842; }
+  .corner-br { bottom:4px; right:4px; border-bottom:1.5px solid #F5C842; border-right:1.5px solid #F5C842; }
+  .name {
+    font-size:9px; font-weight:900; text-transform:uppercase; letter-spacing:0.08em;
+    text-align:center; line-height:1.2;
+    background:linear-gradient(180deg,#FDEEA0 0%,#C9961A 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  }
+  .rank {
+    font-size:7px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase;
+    color:#9B1A0A; text-align:center;
+  }
+  .role {
+    font-size:7px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase;
+    color:#4A4035; text-align:center;
+  }
+</style>
+</head>
+<body>
+  <div class="grid">
+
+    <div class="member">
+      <div class="portrait">
+        <img src="../assets/team/ryan_jay_bullas.png" alt="Ryan Jay Bullas" />
+        <div class="corner-tl"></div><div class="corner-br"></div>
+      </div>
+      <div class="name">Ryan Jay Bullas</div>
+      <div class="rank">★ Commander</div>
+      <div class="role">Team Leader</div>
+    </div>
+
+    <div class="member">
+      <div class="portrait">
+        <img src="../assets/team/merlinda_rodriguez.png" alt="Merlinda Rodriguez" />
+        <div class="corner-tl"></div><div class="corner-br"></div>
+      </div>
+      <div class="name">Merlinda Rodriguez</div>
+      <div class="rank">★ Diamond Rank</div>
+      <div class="role">Team Leader</div>
+    </div>
+
+    <div class="member">
+      <div class="portrait">
+        <img src="../assets/team/juanito_tabuzo.png" alt="Juanito Tabuzo" />
+        <div class="corner-tl"></div><div class="corner-br"></div>
+      </div>
+      <div class="name">Juanito Tabuzo</div>
+      <div class="rank">★ Gold Rank</div>
+      <div class="role">Team Leader</div>
+    </div>
+
+    <div class="member">
+      <div class="portrait">
+        <img src="../assets/team/leonard_caguicla.png" alt="Leonard Caguicla" />
+        <div class="corner-tl"></div><div class="corner-br"></div>
+      </div>
+      <div class="name">Leonard Caguicla</div>
+      <div class="rank">★ Silver Rank</div>
+      <div class="role">Team Leader</div>
+    </div>
+
+    <div class="member">
+      <div class="portrait">
+        <img src="../assets/team/jay_faderogaya.png" alt="Jay Faderogaya" />
+        <div class="corner-tl"></div><div class="corner-br"></div>
+      </div>
+      <div class="name">Jay Faderogaya</div>
+      <div class="rank">★ Gold Rank</div>
+      <div class="role">Team Leader</div>
+    </div>
+
+  </div>
+</body>
+</html>
