@@ -1248,105 +1248,54 @@
       <div class="section-divider"></div>
     </div>
 
-    <div class="events-list">
-
-      <div class="event-card">
-        <div class="event-date-box">
-          <div class="day">07</div>
-          <div class="month">Jun</div>
-        </div>
-        <div class="event-info">
-          <span class="event-badge">★ In-Person</span>
-          <div class="event-name">Discover a Better Way to Earn</div>
-          <div class="event-meta">
-            <span>📍 Makkhan Boodle Restaurant, Santiago, Isabela</span>
-            <span>🕑 5:00 PM — Sunday</span>
-            <span>👥 Open to all — limited seats</span>
-          </div>
-        </div>
-        <div class="event-action">
-          <div class="glass-button-wrap btn-register-wrap">
-            <button class="glass-button btn-register">
-              <span class="glass-button-text">Register</span>
-            </button>
-            <div class="glass-button-shadow btn-register-shadow"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="event-card">
-        <div class="event-date-box">
-          <div class="day">14</div>
-          <div class="month">Jun</div>
-        </div>
-        <div class="event-info">
-          <span class="event-badge">★ Grand Event</span>
-          <div class="event-name">AICONS The Generals — Grand Business Presentation</div>
-          <div class="event-meta">
-            <span>📍 Jollibee Batangas, P Burgos St Cor D. Silang St., Batangas City</span>
-            <span>🕑 2:00 PM — June 14, 2026</span>
-            <span>👥 All members &amp; guests</span>
-          </div>
-        </div>
-        <div class="event-action">
-          <div class="glass-button-wrap btn-register-wrap">
-            <button class="glass-button btn-register">
-              <span class="glass-button-text">Register</span>
-            </button>
-            <div class="glass-button-shadow btn-register-shadow"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="event-card">
-        <div class="event-date-box">
-          <div class="day">15</div>
-          <div class="month">Jun</div>
-        </div>
-        <div class="event-info">
-          <span class="event-badge">★ Grand Event</span>
-          <div class="event-name">AICONS The Generals — Grand Business Presentation</div>
-          <div class="event-meta">
-            <span>📍 Jollibee, Hon. B. Soliven St., Commonwealth, Quezon City</span>
-            <span>🕑 10:00 AM — 12:00 NN</span>
-            <span>👥 All members &amp; guests</span>
-          </div>
-        </div>
-        <div class="event-action">
-          <div class="glass-button-wrap btn-register-wrap">
-            <button class="glass-button btn-register">
-              <span class="glass-button-text">Register</span>
-            </button>
-            <div class="glass-button-shadow btn-register-shadow"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="event-card">
-        <div class="event-date-box">
-          <div class="day">16</div>
-          <div class="month">Jun</div>
-        </div>
-        <div class="event-info">
-          <span class="event-badge">★ Online</span>
-          <div class="event-name">AiConnect Business Opportunity</div>
-          <div class="event-meta">
-            <span>📍 via Zoom</span>
-            <span>🕑 8:30 PM — Tuesday</span>
-            <span>👥 AICONS × Generals × United</span>
-          </div>
-        </div>
-        <div class="event-action">
-          <div class="glass-button-wrap btn-register-wrap">
-            <button class="glass-button btn-register">
-              <span class="glass-button-text">Register</span>
-            </button>
-            <div class="glass-button-shadow btn-register-shadow"></div>
-          </div>
-        </div>
-      </div>
-
-    </div>
+    <div class="events-list" id="eventsList"></div>
+    
+    <script>
+      (async () => {
+        try {
+          const res = await fetch('events.json');
+          const data = await res.json();
+          const container = document.getElementById('eventsList');
+          
+          data.events.forEach(event => {
+            const badgeType = event.type === 'IN-PERSON' ? '★ In-Person' : 
+                            event.type === 'GRAND EVENT' ? '★ Grand Event' : 
+                            '★ Online';
+            
+            const tagsText = event.tags.join(' — ');
+            
+            const card = document.createElement('div');
+            card.className = 'event-card';
+            card.innerHTML = `
+              <div class="event-date-box">
+                <div class="day">${String(event.date).padStart(2, '0')}</div>
+                <div class="month">${event.month}</div>
+              </div>
+              <div class="event-info">
+                <span class="event-badge">${badgeType}</span>
+                <div class="event-name">${event.title}</div>
+                <div class="event-meta">
+                  <span>📍 ${event.venue}</span>
+                  <span>🕑 ${event.time} — ${event.dayOfWeek}</span>
+                  <span>👥 ${tagsText}</span>
+                </div>
+              </div>
+              <div class="event-action">
+                <div class="glass-button-wrap btn-register-wrap">
+                  <button class="glass-button btn-register" onclick="window.open('${event.registerLink}','_blank')">
+                    <span class="glass-button-text">Register</span>
+                  </button>
+                  <div class="glass-button-shadow btn-register-shadow"></div>
+                </div>
+              </div>
+            `;
+            container.appendChild(card);
+          });
+        } catch (err) {
+          console.error('Failed to load events.json:', err);
+        }
+      })();
+    </script>
   </section>
 
   <!-- ══ MEDIA CENTER ══════════════════════════════════ -->

@@ -1,0 +1,52 @@
+{
+  "events": [
+    {
+      "id": 1,
+      "date": 7,
+      "month": "JUN",
+      "type": "IN-PERSON",
+      "title": "Discover a Better Way to Earn",
+      "venue": "Makkhan Boodle Restaurant, Santiago, Isabela",
+      "time": "5:00 PM",
+      "dayOfWeek": "Sunday",
+      "tags": ["Open to all", "limited seats"],
+      "registerLink": "https://zoom.us/meeting1"
+    },
+    {
+      "id": 2,
+      "date": 14,
+      "month": "JUN",
+      "type": "GRAND EVENT",
+      "title": "AICONS THE GENERALS — GRAND BUSINESS PRESENTATION",
+      "venue": "Jollibee Batangas, P. Burgos St Cor D. Silang St., Batangas City",
+      "time": "2:00 PM",
+      "dayOfWeek": "June 14, 2026",
+      "tags": ["All members & guests"],
+      "registerLink": "https://zoom.us/meeting2"
+    },
+    {
+      "id": 3,
+      "date": 15,
+      "month": "JUN",
+      "type": "GRAND EVENT",
+      "title": "AICONS THE GENERALS — GRAND BUSINESS PRESENTATION",
+      "venue": "Jollibee, Hon. B. Soliven St., Commonwealth, Quezon City",
+      "time": "10:00 AM",
+      "dayOfWeek": "12:00 NN",
+      "tags": ["All members & guests"],
+      "registerLink": "https://zoom.us/meeting3"
+    },
+    {
+      "id": 4,
+      "date": 16,
+      "month": "JUN",
+      "type": "ONLINE",
+      "title": "AICONNECT BUSINESS OPPORTUNITY",
+      "venue": "via Zoom",
+      "time": "8:30 PM",
+      "dayOfWeek": "Tuesday",
+      "tags": ["AICONS", "Generals", "United"],
+      "registerLink": "https://zoom.us/meeting4"
+    }
+  ]
+}
